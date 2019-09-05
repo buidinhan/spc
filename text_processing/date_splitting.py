@@ -26,10 +26,11 @@ def read_data(path):
 
 def output(dates, path):
     with open(path, "w") as f:
-        f.write("original,day,month,year\n")
-        for date in dates:
+        f.write("index,original,day,month,year\n")
+        for index, date in enumerate(dates):
             day, month, year = split_date(date)
-            f.write("{},{},{},{}\n".format(date, day, month, year))
+            f.write("{},{},{},{},{}\n".format(index, date,
+                                         day, month, year))
 
 
 def process(source, destination):
