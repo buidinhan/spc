@@ -2,10 +2,16 @@ def split_date(string):
     """'dd/mm/yy' -> (dd, mm, yyyy)"""
     try:
         portions = string.split("/")
+
         day = int(portions[0])
         month = int(portions[1])
-        year = int(portions[2])+2000
+        if int(portions[2]) < 100:
+            year = int(portions[2]) + 2000
+        else:
+            year = int(portions[2])
+
         return day, month, year
+
     except:
         return string, "", ""
 
