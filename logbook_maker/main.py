@@ -17,8 +17,8 @@ Remember that you shouldn't make any changes to the "template", even its
 name. If you want to change anything, make sure you know how to modify the
 script.
 
-4. Run the script by double-clicking the file named "_registry_maker.py".
-Wait for a while for the script to finish making the log book.
+4. Run the script by double-clicking the file named "main.py". Wait for a
+while for the script to finish making the log book.
 
 5. Move the resulted registry to another folder or it'll be overwritten when
 you make another registry.
