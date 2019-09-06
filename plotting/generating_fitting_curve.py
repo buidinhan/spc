@@ -4,8 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plot(function, x_min=-5.0, x_max=5.0,
-         noise_factor=2, seed=0):
+def plot(function, x_min=-5.0, x_max=5.0, noise_factor=2, seed=0):
     np.random.seed(seed)
 
     x = np.arange(x_min, x_max, 0.1)
