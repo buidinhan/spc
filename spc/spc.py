@@ -177,3 +177,14 @@ def r_chart(df):
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
     
     plt.show()
+
+
+def group_scattering(df, y_label="Measure"):
+    groups = df.index
+    n = df.shape[1]
+ 
+    for group in groups:
+        plt.scatter([group]*n, df.loc[group, :])
+
+    plt.ylabel(y_label)
+    plt.show()
