@@ -12,8 +12,11 @@ def add_labels(df):
     n_rows, n_cols = df.shape
     rows = ["Time {}".format(x+1) for x in range(n_rows)]
     cols = ["Measure {}".format(x+1) for x in range(n_cols)]
+    
     df.columns = cols
-    df.set_index(rows, inplace=True)
+    
+    df["Group"] = rows
+    df.set_index("Group", drop=True, inplace=True)
 
 
 def get_mean(df):
@@ -29,7 +32,7 @@ def run_chart(series, x_label="no.", y_label="measure"):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     
-##    plt.savefig("run_chart.png")
+    plt.savefig("run_chart.png")
     plt.show()
 
 
@@ -40,4 +43,12 @@ def histogram(series, bins=10, x_label="measure", y_label="frequency"):
     plt.show()
 
 
-def 
+def test_run_chart():
+    np.random.seed(0)
+    df = generate_data()
+    add_labels(df)
+    run_chart(df.iloc[0])
+
+
+if __name__ == "__main__":
+    test_run_chart()
