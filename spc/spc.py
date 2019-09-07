@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 
 ##CONSTANTS = pd.read_csv("cc_constants.csv", index_col="n")
 
+
 def generate_data():
     array = np.random.randint(95, 105, (10, 5))
     return pd.DataFrame(array)
@@ -59,7 +60,7 @@ def run_chart(series, centerline=False,
     if LSL is not None:
         plt.plot(x, [LSL]*n_points, "r", label="LSL")
     
-    plt.legend(loc="right", bbox_to_anchor=(1.25, 0.9))
+    plt.legend(loc="right", bbox_to_anchor=(1.25, 0.85))
     plt.show()
 
 
@@ -72,12 +73,12 @@ def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
 
 def xbar_chart(df):
     means = get_means(df)
-    stds = get_stds(df)
-    n = df.shape[1]
+    stds = get_stds(df)    
     
     X_bar = means.mean()
     s_bar = stds.mean()
 
+    n = df.shape[1]
     A1 = get_constant(n, "A1")
     UCL = X_bar + A1*s_bar
     LCL = X_bar - A1*s_bar
@@ -88,7 +89,8 @@ def xbar_chart(df):
     plt.plot(groups, [X_bar]*len(groups), "k", label="Mean")
     plt.plot(groups, [UCL]*len(groups), "r", label="UCL")
     plt.plot(groups, [LCL]*len(groups), "r", label="LCL")
+    plt.xticks(rotation=90)
     plt.ylabel("X-bar")
-    plt.legend(loc="right", bbox_to_anchor=(1.25, 0.9))
+    plt.legend(loc="right", bbox_to_anchor=(1.25, 0.85))
+    
     plt.show()
-
