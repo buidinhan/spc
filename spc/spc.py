@@ -18,3 +18,26 @@ def add_labels(df):
 
 def get_mean(df):
     return df.mean(axis=1)
+
+
+def run_chart(series, x_label="no.", y_label="measure"):
+    n_points = len(series)
+    x = np.arange(n_points) + 1
+    y = series
+    
+    plt.plot(x, y, marker="o")
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    
+##    plt.savefig("run_chart.png")
+    plt.show()
+
+
+def histogram(series, bins=10, x_label="measure", y_label="frequency"):
+    plt.hist(series, bins=bins)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.show()
+
+
+def 
