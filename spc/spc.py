@@ -192,7 +192,19 @@ def group_scattering(df, y_label="Measure"):
 
 
 def moving_range_chart(df):
-    pass
+    MRs = np.abs(means[1:].values-means[:-1].values)
+    indices = [str(x+2) for x in range(len(MRs))]
+    
+    MR_bar = np.mean(MRs)
+    
+    plt.plot(indices, MRs, marker="o")
+    
+    plt.plot(indices, [MR_bar]*len(MRs), "r",
+             label="MR-bar={:.2f}".format(MR_bar))
+    
+    plt.ylabel("Moving Range")
+    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    plt.show()
 
 
 def six_sigma_hist(df):
