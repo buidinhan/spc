@@ -214,13 +214,49 @@ def moving_range_chart(df):
     plt.show()
 
 
-def six_sigma_hist(df):
-    pass
+def capability_histogram(df, x_label="Measure", bins=10,
+                         USL=None, LSL=None):
+    values = df.values.ravel()
+    mean = np.mean(values)
+    std = np.std(values)
+    
+    fig, ax1 = plt.subplots()
+    
+    ax1.hist(values, bins=bins)
+    
+    # Drawing vertical lines
+    if LSL is not None:
+        plt.axvline(x=LSL, c="red", label="LSL")
+    
+    ax1.axvline(x=mean-3*std, c="black", label="-3s")
+    ax1.axvline(x=mean+3*std, c="black", label="+3s")
+    
+    if USL is not None:
+        ax1.axvline(x=USL, c="red", label="USL")
+        
+    
+    # Probability density function
+    def f(x):
+        coef = 1/np.sqrt(2*np.pi*(std**2))
+        power = -(x-mean)**2 / (2*(std**2))
+        return coef * np.exp(power)
+    
+    Xs = np.arange(mean-4*std, mean+4*std, 0.01)
+    Ys = f(Xs)
+    
+    ax2 = ax1.twinx()
+    ax2.plot(Xs, Ys, c="green")
+    
+    ax1.set_xlabel(x_label)
+    ax1.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    
+    plt.show()
 
 
 def normality_test(df):
     values = df.values.ravel()
-    pass
+
+    capability_histogram(df)
 
 
 def Cpk(df):
