@@ -3,6 +3,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
+CONSTANTS = pd.read_csv("cc_constants.csv", index_col="n")
+
 def generate_data():
     array = np.random.randint(95, 105, (5, 10))
     return pd.DataFrame(array)
