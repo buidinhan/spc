@@ -184,7 +184,37 @@ def group_scattering(df, y_label="Measure"):
     n = df.shape[1]
  
     for group in groups:
-        plt.scatter([group]*n, df.loc[group, :])
+        plt.scatter([group]*n, df.loc[group, :], c="blue")
 
+    plt.xticks(rotation=90)
     plt.ylabel(y_label)
     plt.show()
+
+
+def moving_range_chart(df):
+    pass
+
+
+def six_sigma_hist(df):
+    pass
+
+
+def normality_test(df):
+    values = df.values.ravel()
+    pass
+
+
+def Cpk(df):
+    return None
+
+
+def Cp(df):
+    return None
+
+
+def Ppk(df):
+    return None
+
+
+def Pp(df):
+    return None
