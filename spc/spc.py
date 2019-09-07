@@ -104,6 +104,30 @@ def s_chart(df):
 
 
 def xbar_r_chart(df):
+    means = get_means(df)
+    ranges = get_ranges(df)    
+    
+    X_bar = means.mean()
+    r_bar = ranges.mean()
+
+    n = df.shape[1]
+    A2 = get_constant(n, "A2")
+    UCL = X_bar + A2*r_bar
+    LCL = X_bar - A2*r_bar
+
+    groups = means.index
+
+    plt.plot(groups, means, marker="o")
+    plt.plot(groups, [UCL]*len(groups), "r",
+             label="UCL={:.2f}".format(UCL))
+    plt.plot(groups, [X_bar]*len(groups), "k",
+             label="Mean={:.2f}".format(X_bar))
+    plt.plot(groups, [LCL]*len(groups), "r",
+             label="LCL={:.2f}".format(LCL))
+    plt.xticks(rotation=90)
+    plt.ylabel("X-bar")
+    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    
     plt.show()
 
 
