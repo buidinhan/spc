@@ -13,3 +13,9 @@ def get_data(path):
     df.set_index(rows, inplace=True)
 
     return df
+
+
+def get_mean(df):
+    return df.mean(axis=1)
+
+
