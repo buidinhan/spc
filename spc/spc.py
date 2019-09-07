@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 
 def generate_data():
-    array = np.random.randint(100, 120, (5, 10))
+    array = np.random.randint(95, 105, (5, 10))
     return pd.DataFrame(array)
 
 
@@ -23,7 +23,10 @@ def get_mean(df):
     return df.mean(axis=1)
 
 
-def run_chart(series, x_label="no.", y_label="measure"):
+def run_chart(series, centerline=False,
+              USL=None, LSL=None,
+              x_label="no.", y_label="measure"):
+
     n_points = len(series)
     x = np.arange(n_points) + 1
     y = series
@@ -32,7 +35,17 @@ def run_chart(series, x_label="no.", y_label="measure"):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     
-    plt.savefig("run_chart.png")
+    if centerline:
+        center = np.mean(y)
+        plt.plot(x, [center]*n_points, "k", label="mean")
+
+    if USL is not None:
+        plt.plot(x, [USL]*n_points, "r", label="USL")
+
+    if LSL is not None:
+        plt.plot(x, [LSL]*n_points, "r", label="LSL")
+    
+    plt.legend(loc="right", bbox_to_anchor=(1.25, 0.9))
     plt.show()
 
 
@@ -41,14 +54,3 @@ def histogram(series, bins=10, x_label="measure", y_label="frequency"):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.show()
-
-
-def test_run_chart():
-    np.random.seed(0)
-    df = generate_data()
-    add_labels(df)
-    run_chart(df.iloc[0])
-
-
-if __name__ == "__main__":
-    test_run_chart()
