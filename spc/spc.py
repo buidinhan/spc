@@ -197,10 +197,17 @@ def moving_range_chart(df):
     
     MR_bar = np.mean(MRs)
     
-    plt.plot(indices, MRs, marker="o")
+    D4 = get_constant(2, "D4")
+    UCL = D4 * MR_bar
+    LCL = 0
     
-    plt.plot(indices, [MR_bar]*len(MRs), "r",
+    plt.plot(indices, MRs, marker="o")
+    plt.plot(indices, [UCL]*len(MRs), "r",
+             label="UCL={:.2f}".format(UCL))
+    plt.plot(indices, [MR_bar]*len(MRs), "k",
              label="MR-bar={:.2f}".format(MR_bar))
+    plt.plot(indices, [LCL]*len(MRs), "r",
+             label="LCL={:.2f}".format(LCL))
     
     plt.ylabel("Moving Range")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
