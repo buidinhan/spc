@@ -40,8 +40,9 @@ def get_ranges(df):
 
 
 def run_chart(series, centerline=False,
-              USL=None, LSL=None,
-              x_label="No.", y_label="Measure"):
+              LSL=None, USL=None,
+              x_label="No.", y_label="Measure",
+              save=True):
 
     n_points = len(series)
     x = np.arange(n_points) + 1
@@ -62,6 +63,10 @@ def run_chart(series, centerline=False,
         plt.plot(x, [LSL]*n_points, "r", label="LSL")
     
     plt.legend(loc="right", bbox_to_anchor=(1.25, 0.85))
+
+    if save:
+        plt.savefig("run_chart.png")
+
     plt.show()
 
 
@@ -72,7 +77,7 @@ def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
     plt.show()
 
 
-def xbar_s_chart(df):
+def xbar_s_chart(df, save=True):
     means = get_means(df)
     stds = get_stds(df)    
     
@@ -97,10 +102,13 @@ def xbar_s_chart(df):
     plt.ylabel("X-bar")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
     
+    if save:
+        plt.savefig("xbar_s_chart.png")
+
     plt.show()
 
 
-def s_chart(df):
+def s_chart(df, save=True):
     stds = get_stds(df)
     s_bar = stds.mean()
     
@@ -123,10 +131,13 @@ def s_chart(df):
     plt.ylabel("s")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
     
+    if save:
+        plt.savefig("s_chart.png")
+
     plt.show()
 
 
-def xbar_r_chart(df):
+def xbar_r_chart(df, save=True):
     means = get_means(df)
     ranges = get_ranges(df)    
     
@@ -151,10 +162,13 @@ def xbar_r_chart(df):
     plt.ylabel("X-bar")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
     
+    if save:
+        plt.savefig("xbar_r_chart.png")
+
     plt.show()
 
 
-def r_chart(df):
+def r_chart(df, save=True):
     ranges = get_ranges(df)
     r_bar = ranges.mean()
     
@@ -177,10 +191,13 @@ def r_chart(df):
     plt.ylabel("Range")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
     
+    if save:
+        plt.savefig("r_chart.png")
+
     plt.show()
 
 
-def group_scattering(df, y_label="Measure"):
+def group_scattering(df, y_label="Measure", save=True):
     groups = df.index
     n = df.shape[1]
  
@@ -189,10 +206,14 @@ def group_scattering(df, y_label="Measure"):
 
     plt.xticks(rotation=90)
     plt.ylabel(y_label)
+
+    if save:
+        plt.savefig("scatter.png")
+
     plt.show()
 
 
-def moving_range_chart(df):
+def moving_range_chart(df, save=True):
     MRs = np.abs(means[1:].values-means[:-1].values)
     indices = [str(x+2) for x in range(len(MRs))]
     
@@ -212,11 +233,15 @@ def moving_range_chart(df):
     
     plt.ylabel("Moving Range")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    
+    if save:
+        plt.savefig("mr_chart.png")
+
     plt.show()
 
 
 def capability_histogram(df, x_label="Measure", bins=10,
-                         USL=None, LSL=None):
+                         LSL=None, USL=None, save=True):
     values = df.values.ravel()
     mean = np.mean(values)
     std = np.std(values)
@@ -226,14 +251,14 @@ def capability_histogram(df, x_label="Measure", bins=10,
     ax1.hist(values, bins=bins)
     
     # Drawing vertical lines
-    if LSL is not None:
-        plt.axvline(x=LSL, c="red", label="LSL")
-    
-    ax1.axvline(x=mean-3*std, c="black", label="-3s")
-    ax1.axvline(x=mean+3*std, c="black", label="+3s")
-    
     if USL is not None:
-        ax1.axvline(x=USL, c="red", label="USL")
+        plt.axvline(x=USL, c="red", label="USL")
+    
+    ax1.axvline(x=mean+3*std, c="black", label="+3s")
+    ax1.axvline(x=mean-3*std, c="black", label="-3s")
+    
+    if LSL is not None:
+        ax1.axvline(x=USL, c="red", label="LSL")
         
     
     # Probability density function
@@ -251,6 +276,9 @@ def capability_histogram(df, x_label="Measure", bins=10,
     ax1.set_xlabel(x_label)
     ax1.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
     
+    if save:
+        plt.savefig("histogram.png")
+
     plt.show()
 
 
@@ -266,12 +294,6 @@ def normality_test(df):
         f.write("   Anderson-Darling test static = {:.4f}\n".format(AD))
         f.write("   p-value = {:.4f}".format(p_value))
     
-    capability_histogram(df)
-
-
-def capability_indices(df):
-    return None, None
-
 
 def performance_indices(df, LSL, USL):
     values = df.values.ravel()
@@ -328,3 +350,27 @@ def output_indices(df, LSL, USL, estimation_method="std"):
 def test():
     path = "figure.csv"
     df = pd.read_csv(path)
+    df.drop("shift", axis=1, inplace=True)
+    add_labels(df)
+
+    run_chart(df.values.ravel(), centerline=True,
+              LSL=1, USL=4, save=False)
+    group_scattering(df, save=False)
+
+    xbar_s_chart(df)
+    s_chart(df)
+
+    xbar_r_chart(df)
+    s_chart(df)
+
+    moving_range_chart(df)
+
+    capability_histogram(df, 1, 4)
+    
+    normality_test(df)
+    
+    output_indices(df, 1, 4)
+
+
+if __name__ == "__main__":
+    test()
