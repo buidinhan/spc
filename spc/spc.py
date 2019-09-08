@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from scipy.stats import anderson
 
 
-CONSTANTS = pd.read_csv("cc_constants.csv", index_col="n")
+CONSTANTS = pd.read_csv("constants.csv", index_col="n")
 
 
 def generate_data():
@@ -49,6 +49,7 @@ def run_chart(series, centerline=False,
     y = series
     
     plt.plot(x, y, marker="o")
+    plt.title("Run Chart")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     
@@ -101,7 +102,8 @@ def xbar_s_chart(df, save=True):
     plt.xticks(rotation=90)
     plt.ylabel("X-bar")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
-    
+    plt.title("X-bar (S) Chart")
+
     if save:
         plt.savefig("xbar_s_chart.png")
 
@@ -130,7 +132,8 @@ def s_chart(df, save=True):
     plt.xticks(rotation=90)
     plt.ylabel("s")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
-    
+    plt.title("S Chart")
+
     if save:
         plt.savefig("s_chart.png")
 
@@ -161,7 +164,8 @@ def xbar_r_chart(df, save=True):
     plt.xticks(rotation=90)
     plt.ylabel("X-bar")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
-    
+    plt.title("X-bar (R) Chart")
+
     if save:
         plt.savefig("xbar_r_chart.png")
 
@@ -190,7 +194,8 @@ def r_chart(df, save=True):
     plt.xticks(rotation=90)
     plt.ylabel("Range")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
-    
+    plt.title("R Chart")
+
     if save:
         plt.savefig("r_chart.png")
 
@@ -233,7 +238,8 @@ def moving_range_chart(df, save=True):
     
     plt.ylabel("Moving Range")
     plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
-    
+    plt.title("Subgroup MR Chart")
+
     if save:
         plt.savefig("mr_chart.png")
 
@@ -275,7 +281,8 @@ def capability_histogram(df, x_label="Measure", bins=10,
     
     ax1.set_xlabel(x_label)
     ax1.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
-    
+    ax1.set_title("Capability Histogram")
+
     if save:
         plt.savefig("histogram.png")
 
