@@ -125,7 +125,7 @@ def s_chart(df, save=True):
     plt.plot(groups, stds, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [r_bar]*len(groups), "k",
+    plt.plot(groups, [s_bar]*len(groups), "k",
              label="s-bar={:.2f}".format(s_bar))
     plt.plot(groups, [LCL]*len(groups), "r",
              label="LCL={:.2f}".format(LCL))
@@ -219,6 +219,7 @@ def group_scattering(df, y_label="Measure", save=True):
 
 
 def moving_range_chart(df, save=True):
+    means = get_means(df)
     MRs = np.abs(means[1:].values-means[:-1].values)
     indices = [str(x+2) for x in range(len(MRs))]
     
@@ -355,7 +356,7 @@ def output_indices(df, LSL, USL, estimation_method="std"):
 
 
 def test():
-    path = "figure.csv"
+    path = "fridge.csv"
     df = pd.read_csv(path)
     df.drop("shift", axis=1, inplace=True)
     add_labels(df)
