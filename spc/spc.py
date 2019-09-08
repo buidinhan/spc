@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from scipy.stats import anderson
 
 
 ##CONSTANTS = pd.read_csv("cc_constants.csv", index_col="n")
@@ -255,7 +256,16 @@ def capability_histogram(df, x_label="Measure", bins=10,
 
 def normality_test(df):
     values = df.values.ravel()
-
+    
+    test_results = anderson(values, dist="norm")
+    AD = test_results[0]
+    p_value = test_results[1][2]
+    
+    with open("normality_test.txt", "w") as f:
+        f.write("Anderson-Darling Test for Normality\n")
+        f.write("   Anderson-Darling test static = {:.4f}\n".format(AD))
+        f.write("   p-value = {:.4f}".format(p_value))
+    
     capability_histogram(df)
 
 
