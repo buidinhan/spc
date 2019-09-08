@@ -14,7 +14,7 @@ add_labels(df)
 all_values = df.values.ravel()
 
 # Specification limits
-spec_path ="spec.csv"
+spec_path = "spec.csv"
 spec_df = pd.read_csv(spec_path)
 LSL = spec_df.loc[0, "LSL"]
 USL = spec_df.loc[0, "USL"]
