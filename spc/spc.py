@@ -36,7 +36,7 @@ def get_stds(df):
 
 
 def get_ranges(df):
-    return df.max(axis=1)-df.min(axis=1)
+    return df.max(axis=1) - df.min(axis=1)
 
 
 def run_chart(series, centerline=False,
