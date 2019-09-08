@@ -269,17 +269,16 @@ def normality_test(df):
     capability_histogram(df)
 
 
-def Cpk(df):
-    return None
+def capability_indices(df):
+    return None, None
 
 
-def Cp(df):
-    return None
-
-
-def Ppk(df):
-    return None
-
-
-def Pp(df):
-    return None
+def performance_indices(df, LSL, USL):
+    values = df.values.ravel()
+    mean = np.mean(values)
+    std = np.std(values)
+    
+    Pp = abs(USL-LSL) / (6*std)
+    Ppk = min(abs(LSL-mean), abs(USL-mean)) / (3*std)
+    
+    return Pp, Ppk
