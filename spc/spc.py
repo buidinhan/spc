@@ -89,9 +89,9 @@ def xbar_s_chart(df, save=True, show=False):
     s_bar = stds.mean()
 
     n = df.shape[1]
-    A1 = get_constant(n, "A1")
-    UCL = X_bar + A1*s_bar
-    LCL = X_bar - A1*s_bar
+    A3 = get_constant(n, "A3")
+    UCL = X_bar + A3*s_bar
+    LCL = X_bar - A3*s_bar
 
     groups = means.index
 
