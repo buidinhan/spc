@@ -75,7 +75,7 @@ def run_chart(series, centerline=False,
 
 def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
     plt.figure(figsize=(9, 6))
-    plt.hist(series, bins=bins)
+    plt.hist(series, bins=bins, edgecolor="k")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.show()
@@ -273,7 +273,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
     fig = plt.figure(figsize=(10, 5))
     ax1 = plt.axes()
     
-    ax1.hist(values, bins=bins)
+    ax1.hist(values, bins=bins, edgecolor="k")
     
     # Drawing vertical lines
     if USL is not None:
