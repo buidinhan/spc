@@ -1,8 +1,7 @@
 import pandas as pd
 
-from spc import (add_labels, run_chart, xbar_s_chart,
-                 s_chart, xbar_r_chart, r_chart,
-                 group_scattering, moving_range_chart,
+from spc import (add_labels, run_chart, xbar_s_chart, s_chart,
+                 xbar_r_chart, r_chart, moving_range_chart,
                  capability_histogram, normality_test,
                  output_indices)
 
@@ -10,13 +9,13 @@ from spc import (add_labels, run_chart, xbar_s_chart,
 # Preparation
 # Observations
 data_path = "input.csv"
-df = pd.read_csv(path, header=None)
+df = pd.read_csv(data_path, header=None)
 add_labels(df)
 all_values = df.values.ravel()
 
 # Specification limits
 spec_path ="spec.csv"
-spec_df = pd.read(spec_path)
+spec_df = pd.read_csv(spec_path)
 LSL = spec_df.loc[0, "LSL"]
 USL = spec_df.loc[0, "USL"]
 
@@ -34,4 +33,4 @@ capability_histogram(df, LSL=LSL, USL=USL)
 
 # Calculation
 normality_test(df)
-output_indices(df)
+output_indices(df, LSL, USL)
