@@ -42,7 +42,7 @@ def get_ranges(df):
 def run_chart(series, centerline=False,
               LSL=None, USL=None,
               x_label="No.", y_label="Measure",
-              save=True):
+              save=True, show=False):
 
     n_points = len(series)
     x = np.arange(n_points) + 1
@@ -68,7 +68,8 @@ def run_chart(series, centerline=False,
     if save:
         plt.savefig("run_chart.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
 def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
@@ -78,7 +79,7 @@ def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
     plt.show()
 
 
-def xbar_s_chart(df, save=True):
+def xbar_s_chart(df, save=True, show=False):
     means = get_means(df)
     stds = get_stds(df)    
     
@@ -107,10 +108,11 @@ def xbar_s_chart(df, save=True):
     if save:
         plt.savefig("xbar_s_chart.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
-def s_chart(df, save=True):
+def s_chart(df, save=True, show=False):
     stds = get_stds(df)
     s_bar = stds.mean()
     
@@ -137,10 +139,11 @@ def s_chart(df, save=True):
     if save:
         plt.savefig("s_chart.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
-def xbar_r_chart(df, save=True):
+def xbar_r_chart(df, save=True, show=False):
     means = get_means(df)
     ranges = get_ranges(df)    
     
@@ -169,10 +172,11 @@ def xbar_r_chart(df, save=True):
     if save:
         plt.savefig("xbar_r_chart.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
-def r_chart(df, save=True):
+def r_chart(df, save=True, show=False):
     ranges = get_ranges(df)
     r_bar = ranges.mean()
     
@@ -199,10 +203,11 @@ def r_chart(df, save=True):
     if save:
         plt.savefig("r_chart.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
-def group_scattering(df, y_label="Measure", save=True):
+def group_scattering(df, y_label="Measure", save=True, show=False):
     groups = df.index
     n = df.shape[1]
  
@@ -215,10 +220,11 @@ def group_scattering(df, y_label="Measure", save=True):
     if save:
         plt.savefig("scatter.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
-def moving_range_chart(df, save=True):
+def moving_range_chart(df, save=True, show=False):
     means = get_means(df)
     MRs = np.abs(means[1:].values-means[:-1].values)
     indices = [str(x+2) for x in range(len(MRs))]
@@ -244,11 +250,13 @@ def moving_range_chart(df, save=True):
     if save:
         plt.savefig("mr_chart.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
 def capability_histogram(df, x_label="Measure", bins=10,
-                         LSL=None, USL=None, save=True):
+                         LSL=None, USL=None,
+                         save=True, show=False):
     values = df.values.ravel()
     mean = np.mean(values)
     std = np.std(values)
@@ -287,7 +295,8 @@ def capability_histogram(df, x_label="Measure", bins=10,
     if save:
         plt.savefig("histogram.png")
 
-    plt.show()
+    if show:
+        plt.show()
 
 
 def normality_test(df):
@@ -362,15 +371,15 @@ def test():
     add_labels(df)
 
     run_chart(df.values.ravel(), centerline=True,
-              LSL=1, USL=4, save=False)
-    group_scattering(df, save=False)
+              LSL=1, USL=4, save=False, show=True)
+    group_scattering(df, save=False, show=True)
 
-    xbar_s_chart(df)
-    s_chart(df)
-    xbar_r_chart(df)
-    s_chart(df)
-    moving_range_chart(df)
-    capability_histogram(df, LSL=1, USL=4)
+    xbar_s_chart(df, show=True)
+    s_chart(df, show=True)
+    xbar_r_chart(df, show=True)
+    s_chart(df, show=True)
+    moving_range_chart(df, show=True)
+    capability_histogram(df, LSL=1, USL=4, show=True)
     
     normality_test(df)
     output_indices(df, 1, 4)
