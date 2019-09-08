@@ -370,7 +370,7 @@ def test():
     xbar_r_chart(df)
     s_chart(df)
     moving_range_chart(df)
-    capability_histogram(df, 1, 4)
+    capability_histogram(df, LSL=1, USL=4)
     
     normality_test(df)
     output_indices(df, 1, 4)
