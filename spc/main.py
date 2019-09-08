@@ -21,8 +21,7 @@ USL = spec_df.loc[0, "USL"]
 
 
 # Plotting
-run_chart(all_values, centerline=True,
-          LSL=LSL, USL=USL)
+run_chart(all_values, centerline=True, LSL=LSL, USL=USL)
 xbar_s_chart(df)
 xbar_r_chart(df)
 s_chart(df)
