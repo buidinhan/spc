@@ -66,7 +66,7 @@ def run_chart(series, centerline=False,
     plt.legend(loc="right", bbox_to_anchor=(1.25, 0.85))
 
     if save:
-        plt.savefig("run_chart.png")
+        plt.savefig("output__run_chart.png")
 
     if show:
         plt.show()
@@ -106,7 +106,7 @@ def xbar_s_chart(df, save=True, show=False):
     plt.title("X-bar (S) Chart")
 
     if save:
-        plt.savefig("xbar_s_chart.png")
+        plt.savefig("output__xbar_s_chart.png")
 
     if show:
         plt.show()
@@ -137,7 +137,7 @@ def s_chart(df, save=True, show=False):
     plt.title("S Chart")
 
     if save:
-        plt.savefig("s_chart.png")
+        plt.savefig("output__s_chart.png")
 
     if show:
         plt.show()
@@ -170,7 +170,7 @@ def xbar_r_chart(df, save=True, show=False):
     plt.title("X-bar (R) Chart")
 
     if save:
-        plt.savefig("xbar_r_chart.png")
+        plt.savefig("output__xbar_r_chart.png")
 
     if show:
         plt.show()
@@ -201,7 +201,7 @@ def r_chart(df, save=True, show=False):
     plt.title("R Chart")
 
     if save:
-        plt.savefig("r_chart.png")
+        plt.savefig("output__r_chart.png")
 
     if show:
         plt.show()
@@ -218,7 +218,7 @@ def group_scattering(df, y_label="Measure", save=True, show=False):
     plt.ylabel(y_label)
 
     if save:
-        plt.savefig("scatter.png")
+        plt.savefig("output__scatter.png")
 
     if show:
         plt.show()
@@ -248,7 +248,7 @@ def moving_range_chart(df, save=True, show=False):
     plt.title("Subgroup MR Chart")
 
     if save:
-        plt.savefig("mr_chart.png")
+        plt.savefig("output__mr_chart.png")
 
     if show:
         plt.show()
@@ -293,7 +293,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
     ax1.set_title("Capability Histogram")
 
     if save:
-        plt.savefig("histogram.png")
+        plt.savefig("output__histogram.png")
 
     if show:
         plt.show()
@@ -306,7 +306,7 @@ def normality_test(df):
     AD = test_results[0]
     p_value = test_results[1][2]
     
-    with open("normality_test.txt", "w") as f:
+    with open("output__normality_test.txt", "w") as f:
         f.write("Anderson-Darling Test for Normality\n")
         f.write("   Anderson-Darling test static = {:.4f}\n".format(AD))
         f.write("   p-value = {:.4f}".format(p_value))
@@ -355,7 +355,7 @@ def output_indices(df, LSL, USL, estimation_method="std"):
                   estimation_method=estimation_method)
     Pp, Ppk = performance_indices(df, LSL, USL)
 
-    with open("indices.txt", "w") as f:
+    with open("output__indices.txt", "w") as f:
         f.write("Capability Indices:\n")
         f.write("    Cp  = {:.2f}\n".format(Cp))
         f.write("    Cpk = {:.2f}\n\n".format(Cpk))
