@@ -282,3 +282,44 @@ def performance_indices(df, LSL, USL):
     Ppk = min(abs(LSL-mean), abs(USL-mean)) / (3*std)
     
     return Pp, Ppk
+
+
+def capability_indices(df, LSL, USL,
+                       estimation_method="std"):
+    means = get_means(df)
+    X_bar = np.mean(means)
+    n = df.shape[1]
+    
+    if estimation_method == "range":
+        ranges = get_ranges(df)
+        r_bar = np.mean(ranges)
+        d2 = get_constant(n, "d2")
+        estimated_s = r_bar / d2
+        
+    elif estimation_method == "std":
+        stds = get_stds(df)
+        s_bar = np.mean(stds)
+        c4 = get_constant(n, "c4")
+        estimated_s = s_bar / c4
+    
+    else:
+        raise ValueError('estimation_method should be "std" or "range"')
+        
+    Cp = abs(USL-LSL) / (6*estimated_s)
+    Cpk = min(abs(USL-X_bar), abs(LSL-X_bar)) / (3*estimated_s)
+    
+    return Cp, Cpk
+
+
+def output_indices(df, LSL, USL, estimation_method="std"):
+    Cp, Cpk = capability_indices(df, LSL, USL,
+                  estimation_method=estimation_method)
+    Pp, Ppk = performance_indices(df, LSL, USL)
+
+    with open("indices.txt", "w") as f:
+        f.write("Capability Indices:\n")
+        f.write("    Cp  = {:.2f}\n".format(Cp))
+        f.write("    Cpk = {:.2f}\n\n".format(Cpk))
+        f.write("Performance Indices:\n")
+        f.write("    Pp  = {:.2f}\n".format(Pp))
+        f.write("    Ppk = {:.2f}".format(Ppk))
