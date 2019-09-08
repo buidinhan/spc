@@ -55,14 +55,15 @@ def run_chart(series, centerline=False,
     plt.ylabel(y_label)
 
     if USL is not None:
-        plt.plot(x, [USL]*n_points, "r", label="USL")
+        plt.plot(x, [USL]*n_points, "r", label="USL={:.2f}".format(USL))
 
     if centerline:
         center = np.mean(y)
-        plt.plot(x, [center]*n_points, "k", label="Mean")
+        plt.plot(x, [center]*n_points, "k",
+                 label="Mean={:.2f}".format(center))
 
     if LSL is not None:
-        plt.plot(x, [LSL]*n_points, "r", label="LSL")
+        plt.plot(x, [LSL]*n_points, "r", label="LSL={:.2f}".format(LSL))
     
     plt.legend(loc="best", fancybox=True, framealpha=0.5)
 
