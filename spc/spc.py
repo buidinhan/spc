@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from scipy.stats import anderson
 
 
-##CONSTANTS = pd.read_csv("cc_constants.csv", index_col="n")
+CONSTANTS = pd.read_csv("cc_constants.csv", index_col="n")
 
 
 def generate_data():
@@ -323,3 +323,8 @@ def output_indices(df, LSL, USL, estimation_method="std"):
         f.write("Performance Indices:\n")
         f.write("    Pp  = {:.2f}\n".format(Pp))
         f.write("    Ppk = {:.2f}".format(Ppk))
+
+
+def test():
+    path = "figure.csv"
+    df = pd.read_csv(path)
