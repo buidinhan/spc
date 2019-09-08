@@ -359,16 +359,12 @@ def test():
 
     xbar_s_chart(df)
     s_chart(df)
-
     xbar_r_chart(df)
     s_chart(df)
-
     moving_range_chart(df)
-
     capability_histogram(df, 1, 4)
     
     normality_test(df)
-    
     output_indices(df, 1, 4)
 
 
