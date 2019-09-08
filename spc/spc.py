@@ -47,23 +47,24 @@ def run_chart(series, centerline=False,
     n_points = len(series)
     x = np.arange(n_points) + 1
     y = series
-    
+
+    plt.figure(figsize=(9, 6))
     plt.plot(x, y, marker="o")
     plt.title("Run Chart")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
-    
-    if centerline:
-        center = np.mean(y)
-        plt.plot(x, [center]*n_points, "k", label="Mean")
 
     if USL is not None:
         plt.plot(x, [USL]*n_points, "r", label="USL")
 
+    if centerline:
+        center = np.mean(y)
+        plt.plot(x, [center]*n_points, "k", label="Mean")
+
     if LSL is not None:
         plt.plot(x, [LSL]*n_points, "r", label="LSL")
     
-    plt.legend(loc="right", bbox_to_anchor=(1.25, 0.85))
+    plt.legend(loc="best", fancybox=True, framealpha=0.5)
 
     if save:
         plt.savefig("output__run_chart.png")
@@ -73,6 +74,7 @@ def run_chart(series, centerline=False,
 
 
 def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
+    plt.figure(figsize=(9, 6))
     plt.hist(series, bins=bins)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
@@ -93,6 +95,7 @@ def xbar_s_chart(df, save=True, show=False):
 
     groups = means.index
 
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, means, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -100,9 +103,9 @@ def xbar_s_chart(df, save=True, show=False):
              label="Mean={:.2f}".format(X_bar))
     plt.plot(groups, [LCL]*len(groups), "r",
              label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=45)
     plt.ylabel("X-bar")
-    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    plt.legend(loc="best", fancybox=True, framealpha=0.5)
     plt.title("X-bar (S) Chart")
 
     if save:
@@ -124,6 +127,7 @@ def s_chart(df, save=True, show=False):
 
     groups = stds.index
 
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, stds, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -131,9 +135,9 @@ def s_chart(df, save=True, show=False):
              label="s-bar={:.2f}".format(s_bar))
     plt.plot(groups, [LCL]*len(groups), "r",
              label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=45)
     plt.ylabel("s")
-    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    plt.legend(loc="best", fancybox=True, framealpha=0.5)
     plt.title("S Chart")
 
     if save:
@@ -157,6 +161,7 @@ def xbar_r_chart(df, save=True, show=False):
 
     groups = means.index
 
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, means, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -164,9 +169,9 @@ def xbar_r_chart(df, save=True, show=False):
              label="Mean={:.2f}".format(X_bar))
     plt.plot(groups, [LCL]*len(groups), "r",
              label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=45)
     plt.ylabel("X-bar")
-    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    plt.legend(loc="best", fancybox=True, framealpha=0.5)
     plt.title("X-bar (R) Chart")
 
     if save:
@@ -188,6 +193,7 @@ def r_chart(df, save=True, show=False):
 
     groups = ranges.index
 
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, ranges, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -195,9 +201,9 @@ def r_chart(df, save=True, show=False):
              label="R-bar={:.2f}".format(r_bar))
     plt.plot(groups, [LCL]*len(groups), "r",
              label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=45)
     plt.ylabel("Range")
-    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    plt.legend(loc="best", fancybox=True, framealpha=0.5)
     plt.title("R Chart")
 
     if save:
@@ -210,11 +216,13 @@ def r_chart(df, save=True, show=False):
 def group_scattering(df, y_label="Measure", save=True, show=False):
     groups = df.index
     n = df.shape[1]
- 
+
+    plt.figure(figsize=(9, 6))
+    
     for group in groups:
         plt.scatter([group]*n, df.loc[group, :], c="blue")
 
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=45)
     plt.ylabel(y_label)
 
     if save:
@@ -234,7 +242,8 @@ def moving_range_chart(df, save=True, show=False):
     D4 = get_constant(2, "D4")
     UCL = D4 * MR_bar
     LCL = 0
-    
+
+    plt.figure(figsize=(9, 6))
     plt.plot(indices, MRs, marker="o")
     plt.plot(indices, [UCL]*len(MRs), "r",
              label="UCL={:.2f}".format(UCL))
@@ -244,7 +253,7 @@ def moving_range_chart(df, save=True, show=False):
              label="LCL={:.2f}".format(LCL))
     
     plt.ylabel("Moving Range")
-    plt.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    plt.legend(loc="best", fancybox=True, framealpha=0.5)
     plt.title("Subgroup MR Chart")
 
     if save:
@@ -261,19 +270,22 @@ def capability_histogram(df, x_label="Measure", bins=10,
     mean = np.mean(values)
     std = np.std(values)
     
-    fig, ax1 = plt.subplots()
+    fig = plt.figure(figsize=(10, 5))
+    ax1 = plt.axes()
     
     ax1.hist(values, bins=bins)
     
     # Drawing vertical lines
     if USL is not None:
-        plt.axvline(x=USL, c="red", label="USL")
+        plt.axvline(x=USL, c="red", label="USL={:.2f}".format(USL))
     
-    ax1.axvline(x=mean+3*std, c="black", label="+3s")
-    ax1.axvline(x=mean-3*std, c="black", label="-3s")
+    ax1.axvline(x=mean+3*std, c="black",
+                label="mean+3s={:.2f}".format(mean+3*std))
+    ax1.axvline(x=mean-3*std, c="black",
+                label="mean-3s={:.2f}".format(mean-3*std))
     
     if LSL is not None:
-        ax1.axvline(x=USL, c="red", label="LSL")
+        ax1.axvline(x=LSL, c="red", label="LSL={:.2f}".format(LSL))
         
     
     # Probability density function
@@ -289,7 +301,8 @@ def capability_histogram(df, x_label="Measure", bins=10,
     ax2.plot(Xs, Ys, c="green")
     
     ax1.set_xlabel(x_label)
-    ax1.legend(loc="right", bbox_to_anchor=(1.35, 0.85))
+    ax1.set_ylabel("Count")
+    ax1.legend(loc="upper right", fancybox=True, framealpha=0.5)
     ax1.set_title("Capability Histogram")
 
     if save:
@@ -374,12 +387,12 @@ def test():
               LSL=1, USL=4, save=False, show=True)
     group_scattering(df, save=False, show=True)
 
-    xbar_s_chart(df, show=True)
-    s_chart(df, show=True)
-    xbar_r_chart(df, show=True)
-    s_chart(df, show=True)
-    moving_range_chart(df, show=True)
-    capability_histogram(df, LSL=1, USL=4, show=True)
+    xbar_s_chart(df, save=False, show=True)
+    s_chart(df, save=False, show=True)
+    xbar_r_chart(df, save=False, show=True)
+    r_chart(df, save=False, show=True)
+    moving_range_chart(df, save=False, show=True)
+    capability_histogram(df, LSL=1, USL=4, save=False, show=True)
     
     normality_test(df)
     output_indices(df, 1, 4)
