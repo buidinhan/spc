@@ -94,7 +94,7 @@ def xbar_s_chart(df, save=True, show=False):
     UCL = X_bar + A3*s_bar
     LCL = X_bar - A3*s_bar
 
-    groups = means.index
+    groups = means.index.values
 
     plt.figure(figsize=(9, 6))
     plt.plot(groups, means, marker="o")
@@ -126,7 +126,7 @@ def s_chart(df, save=True, show=False):
     UCL = B4 * s_bar
     LCL = B3 * s_bar
 
-    groups = stds.index
+    groups = stds.index.values
 
     plt.figure(figsize=(9, 6))
     plt.plot(groups, stds, marker="o")
@@ -160,7 +160,7 @@ def xbar_r_chart(df, save=True, show=False):
     UCL = X_bar + A2*r_bar
     LCL = X_bar - A2*r_bar
 
-    groups = means.index
+    groups = means.index.values
 
     plt.figure(figsize=(9, 6))
     plt.plot(groups, means, marker="o")
@@ -192,7 +192,7 @@ def r_chart(df, save=True, show=False):
     UCL = D4 * r_bar
     LCL = D3 * r_bar
 
-    groups = ranges.index
+    groups = ranges.index.values
 
     plt.figure(figsize=(9, 6))
     plt.plot(groups, ranges, marker="o")
