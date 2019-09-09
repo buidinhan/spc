@@ -32,7 +32,7 @@ def get_means(df):
 
 
 def get_stds(df):
-    return df.std(axis=1)
+    return df.std(axis=1, ddof=1)
 
 
 def get_ranges(df):
@@ -269,7 +269,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
                          save=True, show=False):
     values = df.values.ravel()
     mean = np.mean(values)
-    std = np.std(values)
+    std = np.std(values, ddof=1)
     
     fig = plt.figure(figsize=(10, 5))
     ax1 = plt.axes()
@@ -334,7 +334,7 @@ def normality_test(df):
 def performance_indices(df, LSL, USL):
     values = df.values.ravel()
     mean = np.mean(values)
-    std = np.std(values)
+    std = np.std(values, ddof=1)
     
     Pp = abs(USL-LSL) / (6*std)
     Ppk = min(abs(LSL-mean), abs(USL-mean)) / (3*std)
@@ -406,3 +406,4 @@ def test():
 
 if __name__ == "__main__":
     test()
+   
