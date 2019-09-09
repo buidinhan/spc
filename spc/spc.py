@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-from scipy.stats import anderson
+from scipy import stats
 
 
 CONSTANTS = pd.read_csv("constants.csv", index_col="n")
@@ -316,7 +316,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
 def normality_test(df):
     values = df.values.ravel()
     
-    test_results = anderson(values, dist="norm")
+    test_results = stats.anderson(values, dist="norm")
     AD = test_results[0]
     crit_val = test_results[1][2]
     
