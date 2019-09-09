@@ -1,10 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from spc import (add_labels, run_chart, xbar_s_chart, s_chart,
-                 xbar_r_chart, r_chart, moving_range_chart,
-                 capability_histogram, probability_plot,
-                 normality_test, output_indices)
+from spc import *
 
 
 # Preparation
@@ -22,7 +19,7 @@ USL = spec_df.loc[0, "USL"]
 
 
 # Plotting
-plt.style.use("ggplot")
+plt.style.use("seaborn-white")
 run_chart(all_values, centerline=True, LSL=LSL, USL=USL)
 xbar_s_chart(df)
 s_chart(df)
