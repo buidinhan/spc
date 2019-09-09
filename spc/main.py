@@ -1,9 +1,10 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from spc import (add_labels, run_chart, xbar_s_chart, s_chart,
                  xbar_r_chart, r_chart, moving_range_chart,
-                 capability_histogram, normality_test,
-                 output_indices)
+                 capability_histogram, probability_plot,
+                 normality_test, output_indices)
 
 
 # Preparation
@@ -21,6 +22,7 @@ USL = spec_df.loc[0, "USL"]
 
 
 # Plotting
+plt.style.use("ggplot")
 run_chart(all_values, centerline=True, LSL=LSL, USL=USL)
 xbar_s_chart(df)
 s_chart(df)
@@ -28,6 +30,7 @@ xbar_r_chart(df)
 r_chart(df)
 moving_range_chart(df)
 capability_histogram(df, LSL=LSL, USL=USL)
+probability_plot(df)
 
 
 # Calculation
