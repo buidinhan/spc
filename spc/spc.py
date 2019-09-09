@@ -318,12 +318,17 @@ def normality_test(df):
     
     test_results = anderson(values, dist="norm")
     AD = test_results[0]
-    p_value = test_results[1][2]
+    crit_val = test_results[1][2]
     
     with open("output__normality_test.txt", "w") as f:
-        f.write("Anderson-Darling Test for Normality\n")
-        f.write("   Anderson-Darling test static = {:.4f}\n".format(AD))
-        f.write("   p-value = {:.4f}".format(p_value))
+        f.write("Anderson-Darling (A-D) Test for Normality\n")
+        f.write("   H0: The data are normally distributed.\n")
+        f.write("   HA: The data are not normally distributed.\n")
+        f.write("   H0 is rejected if A-D test static > A-D critical value.\n\n")
+        f.write("Results\n")
+        f.write("   Significance level: alpha = 0.05\n")
+        f.write("   A-D test static = {:.4f}\n".format(AD))
+        f.write("   A-D critical value = {:.4f}".format(crit_val))
     
 
 def performance_indices(df, LSL, USL):
