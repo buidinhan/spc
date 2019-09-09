@@ -313,6 +313,20 @@ def capability_histogram(df, x_label="Measure", bins=10,
         plt.show()
 
 
+def probability_plot(df, distribution="norm", save=True, show=False):
+    values = df.values.ravel()
+    
+    fig = plt.figure(figsize=(9, 6))
+    ax = plt.axes()
+    stats.probplot(values, dist=distribution, plot=ax)
+    
+    if save:
+        plt.savefig("output__prob_plot.png")
+        
+    if show:
+        plt.show()
+    
+
 def normality_test(df):
     values = df.values.ravel()
     
@@ -400,6 +414,7 @@ def test():
     moving_range_chart(df, save=False, show=True)
     capability_histogram(df, LSL=1, USL=4, save=False, show=True)
     
+    probability_plot(df, save=False, show=True)
     normality_test(df)
     output_indices(df, 1, 4)
 
