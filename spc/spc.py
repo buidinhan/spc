@@ -5,6 +5,8 @@ from scipy import stats
 
 
 CONSTANTS = pd.read_csv("constants.csv", index_col="n")
+WIDTH = 9
+HEIGHT = 6
 
 
 def generate_data():
@@ -39,8 +41,7 @@ def get_ranges(df):
     return df.max(axis=1) - df.min(axis=1)
 
 
-def run_chart(series, centerline=False,
-              LSL=None, USL=None,
+def run_chart(series, centerline=False, LSL=None, USL=None,
               x_label="No.", y_label="Measure",
               save=True, show=False):
 
@@ -48,24 +49,26 @@ def run_chart(series, centerline=False,
     x = np.arange(n_points) + 1
     y = series
 
-    plt.figure(figsize=(9, 6))
-    plt.plot(x, y, marker="o")
-    plt.title("Run Chart")
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(x, y, marker="o")
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.title("Run Chart\n")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
 
     if USL is not None:
-        plt.plot(x, [USL]*n_points, "r", label="USL={:.2f}".format(USL))
+        plt.plot(x, [USL]*n_points, "r")
+        plt.annotate(s="USL={:.2f}".format(USL), xy=(n_points+0.5, USL))
 
     if centerline:
         center = np.mean(y)
-        plt.plot(x, [center]*n_points, "k",
-                 label="Mean={:.2f}".format(center))
+        plt.plot(x, [center]*n_points, "k")
+        plt.annotate(s="Mean={:.2f}".format(center), xy=(n_points+0.5, center))
 
     if LSL is not None:
-        plt.plot(x, [LSL]*n_points, "r", label="LSL={:.2f}".format(LSL))
-    
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
+        plt.plot(x, [LSL]*n_points, "r")
+        plt.annotate(s="LSL={:.2f}".format(LSL), xy=(n_points+0.5, LSL))
 
     if save:
         plt.savefig("output__run_chart.png")
@@ -75,7 +78,7 @@ def run_chart(series, centerline=False,
 
 
 def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
-    plt.figure(figsize=(9, 6))
+    plt.figure(figsize=(WIDTH, HEIGHT))
     plt.hist(series, bins=bins, edgecolor="k")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
@@ -95,19 +98,24 @@ def xbar_s_chart(df, save=True, show=False):
     LCL = X_bar - A3*s_bar
 
     groups = means.index.values
-
-    plt.figure(figsize=(9, 6))
-    plt.plot(groups, means, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [X_bar]*len(groups), "k",
-             label="Mean={:.2f}".format(X_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
+   
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(groups, means, marker="o")
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [X_bar]*len(groups), "k")
+    plt.annotate(s="Mean={:.2f}".format(X_bar), xy=(len(groups)-1+0.1, X_bar))
+    
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    plt.xticks(rotation=60)
     plt.ylabel("X-bar")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("X-bar (S) Chart")
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.title("X-bar (S) Chart\n")
 
     if save:
         plt.savefig("output__xbar_s_chart.png")
@@ -128,18 +136,23 @@ def s_chart(df, save=True, show=False):
 
     groups = stds.index.values
 
-    plt.figure(figsize=(9, 6))
-    plt.plot(groups, stds, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [s_bar]*len(groups), "k",
-             label="s-bar={:.2f}".format(s_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
-    plt.ylabel("s")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("S Chart")
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(groups, stds, marker="o")
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [s_bar]*len(groups), "k")
+    plt.annotate(s="s-bar={:.2f}".format(s_bar), xy=(len(groups)-1+0.1, s_bar))
+    
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.xticks(rotation=60)
+    plt.ylabel("S     ", rotation=0)
+    plt.title("S Chart\n")
 
     if save:
         plt.savefig("output__s_chart.png")
@@ -162,18 +175,23 @@ def xbar_r_chart(df, save=True, show=False):
 
     groups = means.index.values
 
-    plt.figure(figsize=(9, 6))
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
     plt.plot(groups, means, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [X_bar]*len(groups), "k",
-             label="Mean={:.2f}".format(X_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [X_bar]*len(groups), "k")
+    plt.annotate(s="Mean={:.2f}".format(X_bar), xy=(len(groups)-1+0.1, X_bar))
+    
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.xticks(rotation=60)
     plt.ylabel("X-bar")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("X-bar (R) Chart")
+    plt.title("X-bar (R) Chart\n")
 
     if save:
         plt.savefig("output__xbar_r_chart.png")
@@ -194,18 +212,23 @@ def r_chart(df, save=True, show=False):
 
     groups = ranges.index.values
 
-    plt.figure(figsize=(9, 6))
-    plt.plot(groups, ranges, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [r_bar]*len(groups), "k",
-             label="R-bar={:.2f}".format(r_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
-    plt.ylabel("Range")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("R Chart")
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(groups, ranges, marker="o")
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [r_bar]*len(groups), "k")
+    plt.annotate(s="R-bar={:.2f}".format(r_bar), xy=(len(groups)-1+0.1, r_bar))
+             
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.xticks(rotation=60)
+    plt.ylabel("R     ", rotation=0)
+    plt.title("R Chart\n")
 
     if save:
         plt.savefig("output__r_chart.png")
@@ -218,12 +241,12 @@ def group_scattering(df, y_label="Measure", save=True, show=False):
     groups = df.index
     n = df.shape[1]
 
-    plt.figure(figsize=(9, 6))
+    plt.figure(figsize=(WIDTH, HEIGHT))
     
     for group in groups:
         plt.scatter([group]*n, df.loc[group, :], c="blue")
 
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=60)
     plt.ylabel(y_label)
 
     if save:
@@ -244,18 +267,22 @@ def moving_range_chart(df, save=True, show=False):
     UCL = D4 * MR_bar
     LCL = 0
 
-    plt.figure(figsize=(9, 6))
-    plt.plot(indices, MRs, marker="o")
-    plt.plot(indices, [UCL]*len(MRs), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(indices, [MR_bar]*len(MRs), "k",
-             label="MR-bar={:.2f}".format(MR_bar))
-    plt.plot(indices, [LCL]*len(MRs), "r",
-             label="LCL={:.2f}".format(LCL))
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(indices, MRs, marker="o")
     
+    plt.plot(indices, [UCL]*len(MRs), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(MRs)-1+0.1, UCL))
+    
+    plt.plot(indices, [MR_bar]*len(MRs), "k")
+    plt.annotate(s="MR-bar={:.2f}".format(MR_bar), xy=(len(MRs)-1+0.1, MR_bar))
+    
+    plt.plot(indices, [LCL]*len(MRs), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(MRs)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
     plt.ylabel("Moving Range")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("Subgroup MR Chart")
+    plt.title("Subgroup MR Chart\n")
 
     if save:
         plt.savefig("output__mr_chart.png")
@@ -264,14 +291,13 @@ def moving_range_chart(df, save=True, show=False):
         plt.show()
 
 
-def capability_histogram(df, x_label="Measure", bins=10,
-                         LSL=None, USL=None,
+def capability_histogram(df, x_label="Measure", bins=10, LSL=None, USL=None,
                          save=True, show=False):
     values = df.values.ravel()
     mean = np.mean(values)
     std = np.std(values, ddof=1)
     
-    fig = plt.figure(figsize=(10, 5))
+    fig = plt.figure(figsize=(WIDTH, HEIGHT))
     ax1 = plt.axes()
     
     ax1.hist(values, bins=bins, edgecolor="k")
@@ -279,16 +305,17 @@ def capability_histogram(df, x_label="Measure", bins=10,
     # Drawing vertical lines
     if USL is not None:
         plt.axvline(x=USL, c="red", label="USL={:.2f}".format(USL))
+##        plt.annotate(s="USL={:.2f}".format(USL), xy=(USL+0.01, 5), rotation=90)
     
     ax1.axvline(x=mean+3*std, c="black",
                 label="mean+3s={:.2f}".format(mean+3*std))
+    
     ax1.axvline(x=mean-3*std, c="black",
                 label="mean-3s={:.2f}".format(mean-3*std))
     
     if LSL is not None:
         ax1.axvline(x=LSL, c="red", label="LSL={:.2f}".format(LSL))
         
-    
     # Probability density function
     def f(x):
         coef = 1/np.sqrt(2*np.pi*(std**2))
@@ -303,8 +330,9 @@ def capability_histogram(df, x_label="Measure", bins=10,
     
     ax1.set_xlabel(x_label)
     ax1.set_ylabel("Count")
-    ax1.legend(loc="upper right", fancybox=True, framealpha=0.5)
+    ax1.legend(loc="upper right", fancybox=True, framealpha=1)
     ax1.set_title("Capability Histogram")
+    ax2.set_ylabel("Density Function")
 
     if save:
         plt.savefig("output__histogram.png")
@@ -316,7 +344,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
 def probability_plot(df, distribution="norm", save=True, show=False):
     values = df.values.ravel()
     
-    fig = plt.figure(figsize=(9, 6))
+    fig = plt.figure(figsize=(WIDTH, HEIGHT))
     ax = plt.axes()
     stats.probplot(values, dist=distribution, plot=ax)
     
