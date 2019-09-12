@@ -136,18 +136,23 @@ def s_chart(df, save=True, show=False):
 
     groups = stds.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
-    plt.plot(groups, stds, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [s_bar]*len(groups), "k",
-             label="s-bar={:.2f}".format(s_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
-    plt.ylabel("s")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("S Chart")
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(groups, stds, marker="o")
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [s_bar]*len(groups), "k")
+    plt.annotate(s="s-bar={:.2f}".format(s_bar), xy=(len(groups)-1+0.1, s_bar))
+    
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.xticks(rotation=60)
+    plt.ylabel("S     ", rotation=0)
+    plt.title("S Chart\n")
 
     if save:
         plt.savefig("output__s_chart.png")
@@ -207,18 +212,23 @@ def r_chart(df, save=True, show=False):
 
     groups = ranges.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
-    plt.plot(groups, ranges, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [r_bar]*len(groups), "k",
-             label="R-bar={:.2f}".format(r_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
-    plt.ylabel("Range")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("R Chart")
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(groups, ranges, marker="o")
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [r_bar]*len(groups), "k")
+    plt.annotate(s="R-bar={:.2f}".format(r_bar), xy=(len(groups)-1+0.1, r_bar))
+             
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.xticks(rotation=60)
+    plt.ylabel("R     ", rotation=0)
+    plt.title("R Chart\n")
 
     if save:
         plt.savefig("output__r_chart.png")
@@ -247,34 +257,7 @@ def group_scattering(df, y_label="Measure", save=True, show=False):
 
 
 def moving_range_chart(df, save=True, show=False):
-    means = get_means(df)
-    MRs = np.abs(means[1:].values-means[:-1].values)
-    indices = [str(x+2) for x in range(len(MRs))]
-    
-    MR_bar = np.mean(MRs)
-    
-    D4 = get_constant(2, "D4")
-    UCL = D4 * MR_bar
-    LCL = 0
-
-    plt.figure(figsize=(WIDTH, HEIGHT))
-    plt.plot(indices, MRs, marker="o")
-    plt.plot(indices, [UCL]*len(MRs), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(indices, [MR_bar]*len(MRs), "k",
-             label="MR-bar={:.2f}".format(MR_bar))
-    plt.plot(indices, [LCL]*len(MRs), "r",
-             label="LCL={:.2f}".format(LCL))
-    
-    plt.ylabel("Moving Range")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("Subgroup MR Chart")
-
-    if save:
-        plt.savefig("output__mr_chart.png")
-
-    if show:
-        plt.show()
+    pass
 
 
 def capability_histogram(df, x_label="Measure", bins=10,
