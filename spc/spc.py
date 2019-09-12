@@ -41,8 +41,7 @@ def get_ranges(df):
     return df.max(axis=1) - df.min(axis=1)
 
 
-def run_chart(series, centerline=False,
-              LSL=None, USL=None,
+def run_chart(series, centerline=False, LSL=None, USL=None,
               x_label="No.", y_label="Measure",
               save=True, show=False):
 
@@ -57,17 +56,17 @@ def run_chart(series, centerline=False,
     plt.ylabel(y_label)
 
     if USL is not None:
-        plt.plot(x, [USL]*n_points, "r", label="USL={:.2f}".format(USL))
+        plt.plot(x, [USL]*n_points, "r")
+        plt.annotate(s="USL={:.2f}".format(USL), xy=(1, USL+0.05))
 
     if centerline:
         center = np.mean(y)
-        plt.plot(x, [center]*n_points, "k",
-                 label="Mean={:.2f}".format(center))
+        plt.plot(x, [center]*n_points, "k")
+        plt.annotate(s="Mean={:.2f}".format(center), xy=(n_points+0.5, center))
 
     if LSL is not None:
-        plt.plot(x, [LSL]*n_points, "r", label="LSL={:.2f}".format(LSL))
-    
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
+        plt.plot(x, [LSL]*n_points, "r")
+        plt.annotate(s="LSL={:.2f}".format(LSL), xy=(1, LSL+0.05))
 
     if save:
         plt.savefig("output__run_chart.png")
