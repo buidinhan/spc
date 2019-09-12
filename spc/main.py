@@ -19,7 +19,6 @@ USL = spec_df.loc[0, "USL"]
 
 
 # Plotting
-plt.style.use("seaborn-white")
 run_chart(all_values, centerline=True, LSL=LSL, USL=USL)
 xbar_s_chart(df)
 s_chart(df)
