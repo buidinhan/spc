@@ -49,15 +49,17 @@ def run_chart(series, centerline=False, LSL=None, USL=None,
     x = np.arange(n_points) + 1
     y = series
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
-    plt.plot(x, y, marker="o")
-    plt.title("Run Chart")
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(x, y, marker="o")
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.title("Run Chart\n")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
 
     if USL is not None:
         plt.plot(x, [USL]*n_points, "r")
-        plt.annotate(s="USL={:.2f}".format(USL), xy=(1, USL+0.05))
+        plt.annotate(s="USL={:.2f}".format(USL), xy=(n_points+0.5, USL))
 
     if centerline:
         center = np.mean(y)
@@ -66,7 +68,7 @@ def run_chart(series, centerline=False, LSL=None, USL=None,
 
     if LSL is not None:
         plt.plot(x, [LSL]*n_points, "r")
-        plt.annotate(s="LSL={:.2f}".format(LSL), xy=(1, LSL+0.05))
+        plt.annotate(s="LSL={:.2f}".format(LSL), xy=(n_points+0.5, LSL))
 
     if save:
         plt.savefig("output__run_chart.png")
