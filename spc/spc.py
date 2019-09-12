@@ -170,18 +170,23 @@ def xbar_r_chart(df, save=True, show=False):
 
     groups = means.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
     plt.plot(groups, means, marker="o")
-    plt.plot(groups, [UCL]*len(groups), "r",
-             label="UCL={:.2f}".format(UCL))
-    plt.plot(groups, [X_bar]*len(groups), "k",
-             label="Mean={:.2f}".format(X_bar))
-    plt.plot(groups, [LCL]*len(groups), "r",
-             label="LCL={:.2f}".format(LCL))
-    plt.xticks(rotation=45)
+    
+    plt.plot(groups, [UCL]*len(groups), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
+    
+    plt.plot(groups, [X_bar]*len(groups), "k")
+    plt.annotate(s="Mean={:.2f}".format(X_bar), xy=(len(groups)-1+0.1, X_bar))
+    
+    plt.plot(groups, [LCL]*len(groups), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.xticks(rotation=60)
     plt.ylabel("X-bar")
-    plt.legend(loc="best", fancybox=True, framealpha=0.5)
-    plt.title("X-bar (R) Chart")
+    plt.title("X-bar (R) Chart\n")
 
     if save:
         plt.savefig("output__xbar_r_chart.png")
