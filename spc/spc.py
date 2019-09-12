@@ -246,7 +246,7 @@ def group_scattering(df, y_label="Measure", save=True, show=False):
     for group in groups:
         plt.scatter([group]*n, df.loc[group, :], c="blue")
 
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=60)
     plt.ylabel(y_label)
 
     if save:
@@ -257,11 +257,41 @@ def group_scattering(df, y_label="Measure", save=True, show=False):
 
 
 def moving_range_chart(df, save=True, show=False):
-    pass
+    means = get_means(df)
+    MRs = np.abs(means[1:].values-means[:-1].values)
+    indices = [str(x+2) for x in range(len(MRs))]
+    
+    MR_bar = np.mean(MRs)
+    
+    D4 = get_constant(2, "D4")
+    UCL = D4 * MR_bar
+    LCL = 0
+
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
+    ax.plot(indices, MRs, marker="o")
+    
+    plt.plot(indices, [UCL]*len(MRs), "r")
+    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(MRs)-1+0.1, UCL))
+    
+    plt.plot(indices, [MR_bar]*len(MRs), "k")
+    plt.annotate(s="MR-bar={:.2f}".format(MR_bar), xy=(len(MRs)-1+0.1, MR_bar))
+    
+    plt.plot(indices, [LCL]*len(MRs), "r")
+    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(MRs)-1+0.1, LCL))
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.ylabel("Moving Range")
+    plt.title("Subgroup MR Chart\n")
+
+    if save:
+        plt.savefig("output__mr_chart.png")
+
+    if show:
+        plt.show()
 
 
-def capability_histogram(df, x_label="Measure", bins=10,
-                         LSL=None, USL=None,
+def capability_histogram(df, x_label="Measure", bins=10, LSL=None, USL=None,
                          save=True, show=False):
     values = df.values.ravel()
     mean = np.mean(values)
@@ -275,16 +305,17 @@ def capability_histogram(df, x_label="Measure", bins=10,
     # Drawing vertical lines
     if USL is not None:
         plt.axvline(x=USL, c="red", label="USL={:.2f}".format(USL))
+##        plt.annotate(s="USL={:.2f}".format(USL), xy=(USL+0.01, 5), rotation=90)
     
     ax1.axvline(x=mean+3*std, c="black",
                 label="mean+3s={:.2f}".format(mean+3*std))
+    
     ax1.axvline(x=mean-3*std, c="black",
                 label="mean-3s={:.2f}".format(mean-3*std))
     
     if LSL is not None:
         ax1.axvline(x=LSL, c="red", label="LSL={:.2f}".format(LSL))
         
-    
     # Probability density function
     def f(x):
         coef = 1/np.sqrt(2*np.pi*(std**2))
@@ -299,8 +330,9 @@ def capability_histogram(df, x_label="Measure", bins=10,
     
     ax1.set_xlabel(x_label)
     ax1.set_ylabel("Count")
-    ax1.legend(loc="upper right", fancybox=True, framealpha=0.5)
+    ax1.legend(loc="upper right", fancybox=True, framealpha=1)
     ax1.set_title("Capability Histogram")
+    ax2.set_ylabel("Density Function")
 
     if save:
         plt.savefig("output__histogram.png")
@@ -310,17 +342,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
 
 
 def probability_plot(df, distribution="norm", save=True, show=False):
-    values = df.values.ravel()
-    
-    fig = plt.figure(figsize=(WIDTH, HEIGHT))
-    ax = plt.axes()
-    stats.probplot(values, dist=distribution, plot=ax)
-    
-    if save:
-        plt.savefig("output__prob_plot.png")
-        
-    if show:
-        plt.show()
+    pass
     
 
 def normality_test(df):
