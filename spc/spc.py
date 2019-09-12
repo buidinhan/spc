@@ -5,8 +5,6 @@ from scipy import stats
 
 
 CONSTANTS = pd.read_csv("constants.csv", index_col="n")
-WIDTH = 9
-HEIGHT = 6
 
 
 def generate_data():
@@ -50,7 +48,7 @@ def run_chart(series, centerline=False,
     x = np.arange(n_points) + 1
     y = series
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.plot(x, y, marker="o")
     plt.title("Run Chart")
     plt.xlabel(x_label)
@@ -77,7 +75,7 @@ def run_chart(series, centerline=False,
 
 
 def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.hist(series, bins=bins, edgecolor="k")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
@@ -98,7 +96,7 @@ def xbar_s_chart(df, save=True, show=False):
 
     groups = means.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, means, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -130,7 +128,7 @@ def s_chart(df, save=True, show=False):
 
     groups = stds.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, stds, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -164,7 +162,7 @@ def xbar_r_chart(df, save=True, show=False):
 
     groups = means.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, means, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -196,7 +194,7 @@ def r_chart(df, save=True, show=False):
 
     groups = ranges.index.values
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.plot(groups, ranges, marker="o")
     plt.plot(groups, [UCL]*len(groups), "r",
              label="UCL={:.2f}".format(UCL))
@@ -220,7 +218,7 @@ def group_scattering(df, y_label="Measure", save=True, show=False):
     groups = df.index
     n = df.shape[1]
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     
     for group in groups:
         plt.scatter([group]*n, df.loc[group, :], c="blue")
@@ -246,7 +244,7 @@ def moving_range_chart(df, save=True, show=False):
     UCL = D4 * MR_bar
     LCL = 0
 
-    plt.figure(figsize=(WIDTH, HEIGHT))
+    plt.figure(figsize=(9, 6))
     plt.plot(indices, MRs, marker="o")
     plt.plot(indices, [UCL]*len(MRs), "r",
              label="UCL={:.2f}".format(UCL))
@@ -273,7 +271,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
     mean = np.mean(values)
     std = np.std(values, ddof=1)
     
-    fig = plt.figure(figsize=(WIDTH, HEIGHT))
+    fig = plt.figure(figsize=(10, 5))
     ax1 = plt.axes()
     
     ax1.hist(values, bins=bins, edgecolor="k")
@@ -318,7 +316,7 @@ def capability_histogram(df, x_label="Measure", bins=10,
 def probability_plot(df, distribution="norm", save=True, show=False):
     values = df.values.ravel()
     
-    fig = plt.figure(figsize=(WIDTH, HEIGHT))
+    fig = plt.figure(figsize=(9, 6))
     ax = plt.axes()
     stats.probplot(values, dist=distribution, plot=ax)
     
