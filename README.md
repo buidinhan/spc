@@ -1,2 +1,2 @@
-# automation
-Codes for my daily work.
+# Statistical Process Control
+
