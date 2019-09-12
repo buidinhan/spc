@@ -342,7 +342,17 @@ def capability_histogram(df, x_label="Measure", bins=10, LSL=None, USL=None,
 
 
 def probability_plot(df, distribution="norm", save=True, show=False):
-    pass
+    values = df.values.ravel()
+    
+    fig = plt.figure(figsize=(WIDTH, HEIGHT))
+    ax = plt.axes()
+    stats.probplot(values, dist=distribution, plot=ax)
+    
+    if save:
+        plt.savefig("output__prob_plot.png")
+        
+    if show:
+        plt.show()
     
 
 def normality_test(df):
