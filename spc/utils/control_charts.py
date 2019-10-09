@@ -1,7 +1,11 @@
 import pandas as pd
 import numpy as np
 
+
 # CALCULATIONS FOR DRAWING OF CONTROL CHARTS
+CONSTANTS = pd.read_csv("constants.csv", index_col="n")
+
+
 def load_input(path):
     with open(path, "r") as f:
             target = float(f.readline().split("=")[-1])
@@ -13,13 +17,6 @@ def load_input(path):
 
     return df, target, LSL, USL
                      
-    
-def load_constants():
-    return pd.read_csv("constants.csv", index_col="n")
-
-
-CONSTANTS = load_constants()
-
 
 def get_constant(n, c_name):
     return CONSTANTS.loc[n, c_name]
