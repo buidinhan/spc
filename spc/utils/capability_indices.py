@@ -42,7 +42,7 @@ def Cpu(series, USL):
     return np.abs(USL-mean) / (3*std)
 
 
-## CONFIDENCE INTERVAL OF CAPABILITY INDICES
+## CONFIDENCE INTERVALS FOR CAPABILITY INDICES
 def Cp_CI(alpha, series, LSL, USL):
     mean = np.mean(series)
     std = np.std(series, ddof=1)
