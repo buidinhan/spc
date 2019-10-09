@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
 from scipy import stats
 
 
@@ -132,4 +131,3 @@ def test():
 
 if __name__ == "__main__":
     test()
-   
