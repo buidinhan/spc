@@ -114,7 +114,7 @@ def Cpm_CI(alpha, series, USL, LSL, target):
 
 # TESTING
 def test():
-    data_file = "../data/fridge.csv"
+    data_file = "../testing/fridge.csv"
     df = pd.read_csv(data_file)
     series = df[["thick1",
                  "thick2",
