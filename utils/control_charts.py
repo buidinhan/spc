@@ -132,14 +132,29 @@ def moving_range_chart(df, group_axis="row"):
     return MRs_by_group, MR_bar, LCL, UCL
 
 
-def p_chart(series):
-    # TO BE IMPLEMENTED
-    return
+def p_chart(defect_col, total_col, df):
+    proportions = df[defect_col] / df[total_col]
+    proportions = proportions.to_numpy().ravel()
+
+    n_groups = df.shape[0]
+    mean_count = df[total_col].mean()
+
+    p_bar = df[defect_col].sum() / df[total_col].sum()
+    LCL = np.max([0, p_bar - 3 * np.sqrt(p_bar*(1-p_bar)/mean_count)])
+    UCL = p_bar + 3 * np.sqrt(p_bar*(1-p_bar)/mean_count)
+    
+    return proportions, p_bar, LCL, UCL
 
 
 def single_measure_control_chart(series):
-    # TO BE IMPLEMENTED
-    return
+    moving_ranges = np.abs(np.array(series[1:])-np.array(series[:-1]))
+    MR_bar = np.mean(moving_ranges)
+
+    x_bar = np.mean(series)
+    LCL = x_bar - 2.66*MR_bar
+    UCL = x_bar + 2.66*MR_bar
+    
+    return np.array(series), x_bar, LCL, UCL
 
 
 # TESTING
@@ -181,15 +196,19 @@ def test_moving_range_chart():
     print(MR_bar, LCL, UCL)
     
 
-def test_p_chart(series):
-    # TO BE IMPLEMENTED
-    return
+def test_p_chart():
+    df = pd.read_csv("../testing/defects.csv")
+    _, p_bar, LCL, UCL = \
+       p_chart("num_of_reworks", "total_production", df)
+    print(p_bar, LCL, UCL)
 
 
-def test_single_measure_control_chart(series):
-    # TO BE IMPLEMENTED
-    return
+def test_single_measure_control_chart():
+    df = pd.read_csv("../testing/complaints.csv")
+    _, x_bar, LCL, UCL = \
+        single_measure_control_chart(df["number_of_complaints"])
+    print(x_bar, LCL, UCL)
 
     
 if __name__ == "__main__":
-    test_moving_range_chart()
+    test_single_measure_control_chart()
