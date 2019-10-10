@@ -112,17 +112,6 @@ if __name__ == "__main__":
     test_plot_run_chart()
 
 
-##def add_labels(df):
-##    n_rows, n_cols = df.shape
-##    rows = ["Group {}".format(x+1) for x in range(n_rows)]
-##    cols = ["Measure {}".format(x+1) for x in range(n_cols)]
-##    
-##    df.columns = cols
-##    
-##    df["Group"] = rows
-##    df.set_index("Group", drop=True, inplace=True)
-##
-##
 ##def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
 ##    plt.figure(figsize=(WIDTH, HEIGHT))
 ##    plt.hist(series, bins=bins, edgecolor="k")
@@ -469,29 +458,3 @@ if __name__ == "__main__":
 ##        f.write("Performance Indices:\n")
 ##        f.write("    Pp  = {:.2f}\n".format(Pp))
 ##        f.write("    Ppk = {:.2f}".format(Ppk))
-##
-##
-##def test():
-##    path = "fridge.csv"
-##    df = pd.read_csv(path)
-##    df.drop("shift", axis=1, inplace=True)
-##    add_labels(df)
-##
-##    run_chart(df.values.ravel(), centerline=True,
-##              LSL=1, USL=4, save=False, show=True)
-##    group_scattering(df, save=False, show=True)
-##
-##    xbar_s_chart(df, save=False, show=True)
-##    s_chart(df, save=False, show=True)
-##    xbar_r_chart(df, save=False, show=True)
-##    r_chart(df, save=False, show=True)
-##    moving_range_chart(df, save=False, show=True)
-##    capability_histogram(df, LSL=1, USL=4, save=False, show=True)
-##    
-##    probability_plot(df, save=False, show=True)
-##    normality_test(df)
-##    output_indices(df, 1, 4)
-##
-##
-##if __name__ == "__main__":
-##    test()
