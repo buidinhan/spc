@@ -132,6 +132,14 @@ def moving_range_chart(df, group_axis="row"):
     return MRs_by_group, MR_bar, LCL, UCL
 
 
+def p_chart(series):
+    # TO BE IMPLEMENTED
+
+
+def single_measure_control_chart(series):
+    # TO BE IMPLEMENTED
+
+
 # TESTING
 def test_load_input():
     df, target, LSL, USL = load_input("../testing/fridge.dat")
@@ -171,5 +179,13 @@ def test_moving_range_chart():
     print(MR_bar, LCL, UCL)
     
 
+def test_p_chart(series):
+    # TO BE IMPLEMENTED
+
+
+def test_single_measure_control_chart(series):
+    # TO BE IMPLEMENTED
+
+    
 if __name__ == "__main__":
     test_moving_range_chart()
