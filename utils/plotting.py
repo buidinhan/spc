@@ -24,13 +24,25 @@ def plot_run_chart(series, LSL, USL, show_mean=True, x_label=None,
                    save=False, **kwargs):
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.89,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
 
     ax.axhline(y=LSL)
+    ax.annotate("LSL={:.3f}".format(LSL), xy=(1.01, LSL),
+                xycoords=("axes fraction", "data"))
+    
     ax.axhline(y=USL)
+    ax.annotate("USL={:.3f}".format(USL), xy=(1.01, USL),
+                xycoords=("axes fraction", "data"))
 
     if show_mean:
-        ax.axhline(y=np.mean(series))
+        X_bar = np.mean(series)
+        ax.axhline(y=X_bar)
+        ax.annotate("Mean={:.3f}".format(X_bar), xy=(1.01, X_bar),
+                    xycoords=("axes fraction", "data"))
 
     indices = [x+1 for x in range(len(series))]
     ax.plot(indices, series, **kwargs)
@@ -93,7 +105,7 @@ def test_plot_run_chart():
     df, target, LSL, USL = load_input("../testing/fridge.dat")
     all_values = df.to_numpy().ravel()
     plot_run_chart(all_values, LSL, USL, y_label="Thickness",
-                   title="Run Chart", ax=None, show=True, save=False)
+                   title="Run Chart", ax=None, marker="o")
 
 
 if __name__ == "__main__":
