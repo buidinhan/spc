@@ -134,10 +134,12 @@ def moving_range_chart(df, group_axis="row"):
 
 def p_chart(series):
     # TO BE IMPLEMENTED
+    return
 
 
 def single_measure_control_chart(series):
     # TO BE IMPLEMENTED
+    return
 
 
 # TESTING
@@ -181,10 +183,12 @@ def test_moving_range_chart():
 
 def test_p_chart(series):
     # TO BE IMPLEMENTED
+    return
 
 
 def test_single_measure_control_chart(series):
     # TO BE IMPLEMENTED
+    return
 
     
 if __name__ == "__main__":
