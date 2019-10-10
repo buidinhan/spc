@@ -26,7 +26,7 @@ def plot_run_chart(series, LSL, USL, show_mean=True, x_label=None,
     if ax is None:
         fig, ax = plt.subplots(figsize=(10, 6),
                                gridspec_kw={"left": 0.07,
-                                            "right": 0.89,
+                                            "right": 0.87,
                                             "bottom": 0.1,
                                             "top": 0.94})
 
@@ -57,37 +57,239 @@ def plot_run_chart(series, LSL, USL, show_mean=True, x_label=None,
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
 
-    show_and_save_plot(show=show, save=save, filename="run_chart.png")
+    show_and_save_plot(show=show, save=save,
+                       filename="run_chart.png")
 
 
-def plot_histogram():
-    # TO BE IMPLEMENTED
-    return
+def plot_xbar_s_chart(df, group_axis="row", x_label=None, y_label=None,
+                      title=None, ax=None, show=True, save=False,
+                      **kwargs):
+    
+    means, X_bar, LCL, UCL = xbar_s_chart(df, group_axis=group_axis)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.87,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
+
+    group_indices = [x+1 for x in range(len(means))]
+    group_labels = [str(i) for i in group_indices]
+    ax.plot(group_indices, means, **kwargs)
+    ax.set_xticks(group_indices)
+    ax.set_xticklabels(group_labels)
+
+    ax.axhline(y=X_bar)
+    ax.annotate("Mean={:.3f}".format(X_bar), xy=(1.01, X_bar),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=LCL)
+    ax.annotate("LCL={:.3f}".format(LCL), xy=(1.01, LCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=UCL)
+    ax.annotate("UCL={:.3f}".format(UCL), xy=(1.01, UCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.set_title(title)
+
+    if x_label is None:
+        x_label = "Group No."
+
+    ax.set_xlabel(x_label)
+
+    if y_label is None:
+        y_label = "Group Mean"
+
+    ax.set_ylabel(y_label)
+
+    show_and_save_plot(show=show, save=save,
+                       filename="xbar_s_chart.png")
 
 
-def plot_xbar_s_chart():
-    # TO BE IMPLEMENTED
-    return
+def plot_xbar_r_chart(df, group_axis="row", x_label=None, y_label=None,
+                      title=None, ax=None, show=True, save=False,
+                      **kwargs):
+    
+    means, X_bar, LCL, UCL = xbar_r_chart(df, group_axis=group_axis)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.87,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
+
+    group_indices = [x+1 for x in range(len(means))]
+    group_labels = [str(i) for i in group_indices]
+    ax.plot(group_indices, means, **kwargs)
+    ax.set_xticks(group_indices)
+    ax.set_xticklabels(group_labels)
+
+    ax.axhline(y=X_bar)
+    ax.annotate("Mean={:.3f}".format(X_bar), xy=(1.01, X_bar),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=LCL)
+    ax.annotate("LCL={:.3f}".format(LCL), xy=(1.01, LCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=UCL)
+    ax.annotate("UCL={:.3f}".format(UCL), xy=(1.01, UCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.set_title(title)
+
+    if x_label is None:
+        x_label = "Group No."
+
+    ax.set_xlabel(x_label)
+
+    if y_label is None:
+        y_label = "Group Mean"
+
+    ax.set_ylabel(y_label)
+
+    show_and_save_plot(show=show, save=save,
+                       filename="xbar_r_chart.png")
 
 
-def plot_xbar_r_chart():
-    # TO BE IMPLEMENTED
-    return
+def plot_r_chart(df, group_axis="row", x_label=None, y_label=None,
+                 title=None, ax=None, show=True, save=False, **kwargs):
+    
+    ranges, r_bar, LCL, UCL = r_chart(df, group_axis=group_axis)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.87,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
+
+    group_indices = [x+1 for x in range(len(ranges))]
+    group_labels = [str(i) for i in group_indices]
+    ax.plot(group_indices, ranges, **kwargs)
+    ax.set_xticks(group_indices)
+    ax.set_xticklabels(group_labels)
+
+    ax.axhline(y=r_bar)
+    ax.annotate("Mean={:.3f}".format(r_bar), xy=(1.01, r_bar),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=LCL)
+    ax.annotate("LCL={:.3f}".format(LCL), xy=(1.01, LCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=UCL)
+    ax.annotate("UCL={:.3f}".format(UCL), xy=(1.01, UCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.set_title(title)
+
+    if x_label is None:
+        x_label = "Group No."
+
+    ax.set_xlabel(x_label)
+
+    if y_label is None:
+        y_label = "Group Range"
+
+    ax.set_ylabel(y_label)
+
+    show_and_save_plot(show=show, save=save, filename="r_chart.png")
 
 
-def plot_r_chart():
-    # TO BE IMPLEMENTED
-    return
+def plot_s_chart(df, group_axis="row", x_label=None, y_label=None,
+                 title=None, ax=None, show=True, save=False, **kwargs):
+    
+    stds, s_bar, LCL, UCL = s_chart(df, group_axis=group_axis)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.87,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
+
+    group_indices = [x+1 for x in range(len(stds))]
+    group_labels = [str(i) for i in group_indices]
+    ax.plot(group_indices, stds, **kwargs)
+    ax.set_xticks(group_indices)
+    ax.set_xticklabels(group_labels)
+
+    ax.axhline(y=s_bar)
+    ax.annotate("Mean={:.3f}".format(s_bar), xy=(1.01, s_bar),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=LCL)
+    ax.annotate("LCL={:.3f}".format(LCL), xy=(1.01, LCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=UCL)
+    ax.annotate("UCL={:.3f}".format(UCL), xy=(1.01, UCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.set_title(title)
+
+    if x_label is None:
+        x_label = "Group No."
+
+    ax.set_xlabel(x_label)
+
+    if y_label is None:
+        y_label = "Group Std."
+
+    ax.set_ylabel(y_label)
+
+    show_and_save_plot(show=show, save=save, filename="s_chart.png")
 
 
-def plot_s_chart():
-    # TO BE IMPLEMENTED
-    return
+def plot_moving_range_chart(df, group_axis="row", x_label=None,
+                            y_label=None, title=None, ax=None,
+                            show=True, save=False, **kwargs):
+    
+    MRs, MR_bar, LCL, UCL = moving_range_chart(df, group_axis=group_axis)
 
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.87,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
 
-def plot_moving_range_chart():
-    # TO BE IMPLEMENTED
-    return
+    group_indices = [x+2 for x in range(len(MRs))]
+    group_labels = [str(i) for i in group_indices]
+    ax.plot(group_indices, MRs, **kwargs)
+    ax.set_xticks(group_indices)
+    ax.set_xticklabels(group_labels)
+
+    ax.axhline(y=MR_bar)
+    ax.annotate("Mean={:.3f}".format(MR_bar), xy=(1.01, MR_bar),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=LCL)
+    ax.annotate("LCL={:.3f}".format(LCL), xy=(1.01, LCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.axhline(y=UCL)
+    ax.annotate("UCL={:.3f}".format(UCL), xy=(1.01, UCL),
+                xycoords=("axes fraction", "data"))
+
+    ax.set_title(title)
+
+    if x_label is None:
+        x_label = "Group No."
+
+    ax.set_xlabel(x_label)
+
+    if y_label is None:
+        y_label = "Moving Range"
+
+    ax.set_ylabel(y_label)
+
+    show_and_save_plot(show=show, save=save,
+                       filename="moving_range_chart.png")
 
 
 def plot_p_chart():
@@ -108,224 +310,41 @@ def test_plot_run_chart():
                    title="Run Chart", ax=None, marker="o")
 
 
+def test_plot_xbar_s_chart():
+    df, _, _, _ = load_input("../testing/fridge.dat")
+    plot_xbar_s_chart(df, group_axis="row", x_label=None, y_label=None,
+                      title="X-bar (S) Chart", ax=None)
+
+
+def test_plot_xbar_r_chart():
+    df, _, _, _ = load_input("../testing/fridge.dat")
+    plot_xbar_r_chart(df, group_axis="row", x_label=None, y_label=None,
+                      title="X-bar (R) Chart", ax=None, marker="o",
+                      c="g")
+
+
+def test_plot_r_chart():
+    df, _, _, _ = load_input("../testing/fridge.dat")
+    plot_r_chart(df, group_axis="row", x_label=None, y_label=None,
+                 title="R Chart", ax=None)
+
+
+def test_plot_s_chart():
+    df, _, _, _ = load_input("../testing/fridge.dat")
+    plot_s_chart(df, group_axis="row", x_label=None, y_label=None,
+                 title="S Chart", ax=None)
+
+
+def test_plot_moving_range_chart():
+    df, _, _, _ = load_input("../testing/fridge.dat")
+    plot_moving_range_chart(df, group_axis="row", x_label=None,
+                            y_label=None, title="S Chart", ax=None)
+
+
 if __name__ == "__main__":
-    test_plot_run_chart()
+    test_plot_moving_range_chart()
 
 
-##def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
-##    plt.figure(figsize=(WIDTH, HEIGHT))
-##    plt.hist(series, bins=bins, edgecolor="k")
-##    plt.xlabel(x_label)
-##    plt.ylabel(y_label)
-##    plt.show()
-##
-##
-##def xbar_s_chart(df, save=True, show=False):
-##    means = get_means(df)
-##    stds = get_stds(df)    
-##    
-##    X_bar = means.mean()
-##    s_bar = stds.mean()
-##
-##    n = df.shape[1]
-##    A3 = get_constant(n, "A3")
-##    UCL = X_bar + A3*s_bar
-##    LCL = X_bar - A3*s_bar
-##
-##    groups = means.index.values
-##   
-##    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
-##    ax.plot(groups, means, marker="o")
-##    
-##    plt.plot(groups, [UCL]*len(groups), "r")
-##    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
-##    
-##    plt.plot(groups, [X_bar]*len(groups), "k")
-##    plt.annotate(s="Mean={:.2f}".format(X_bar), xy=(len(groups)-1+0.1, X_bar))
-##    
-##    plt.plot(groups, [LCL]*len(groups), "r")
-##    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
-##    
-##    plt.xticks(rotation=60)
-##    plt.ylabel("X-bar")
-##    ax.spines['top'].set_visible(False)
-##    ax.spines['right'].set_visible(False)
-##    plt.title("X-bar (S) Chart\n")
-##
-##    if save:
-##        plt.savefig("output__xbar_s_chart.png")
-##
-##    if show:
-##        plt.show()
-##
-##
-##def s_chart(df, save=True, show=False):
-##    stds = get_stds(df)
-##    s_bar = stds.mean()
-##    
-##    n = df.shape[1]
-##    B4 = get_constant(n, "B4")
-##    B3 = get_constant(n, "B3")
-##    UCL = B4 * s_bar
-##    LCL = B3 * s_bar
-##
-##    groups = stds.index.values
-##
-##    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
-##    ax.plot(groups, stds, marker="o")
-##    
-##    plt.plot(groups, [UCL]*len(groups), "r")
-##    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
-##    
-##    plt.plot(groups, [s_bar]*len(groups), "k")
-##    plt.annotate(s="s-bar={:.2f}".format(s_bar), xy=(len(groups)-1+0.1, s_bar))
-##    
-##    plt.plot(groups, [LCL]*len(groups), "r")
-##    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
-##    
-##    ax.spines['top'].set_visible(False)
-##    ax.spines['right'].set_visible(False)
-##    plt.xticks(rotation=60)
-##    plt.ylabel("S     ", rotation=0)
-##    plt.title("S Chart\n")
-##
-##    if save:
-##        plt.savefig("output__s_chart.png")
-##
-##    if show:
-##        plt.show()
-##
-##
-##def xbar_r_chart(df, save=True, show=False):
-##    means = get_means(df)
-##    ranges = get_ranges(df)    
-##    
-##    X_bar = means.mean()
-##    r_bar = ranges.mean()
-##
-##    n = df.shape[1]
-##    A2 = get_constant(n, "A2")
-##    UCL = X_bar + A2*r_bar
-##    LCL = X_bar - A2*r_bar
-##
-##    groups = means.index.values
-##
-##    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
-##    plt.plot(groups, means, marker="o")
-##    
-##    plt.plot(groups, [UCL]*len(groups), "r")
-##    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
-##    
-##    plt.plot(groups, [X_bar]*len(groups), "k")
-##    plt.annotate(s="Mean={:.2f}".format(X_bar), xy=(len(groups)-1+0.1, X_bar))
-##    
-##    plt.plot(groups, [LCL]*len(groups), "r")
-##    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
-##    
-##    ax.spines['top'].set_visible(False)
-##    ax.spines['right'].set_visible(False)
-##    plt.xticks(rotation=60)
-##    plt.ylabel("X-bar")
-##    plt.title("X-bar (R) Chart\n")
-##
-##    if save:
-##        plt.savefig("output__xbar_r_chart.png")
-##
-##    if show:
-##        plt.show()
-##
-##
-##def r_chart(df, save=True, show=False):
-##    ranges = get_ranges(df)
-##    r_bar = ranges.mean()
-##    
-##    n = df.shape[1]
-##    D4 = get_constant(n, "D4")
-##    D3 = get_constant(n, "D3")
-##    UCL = D4 * r_bar
-##    LCL = D3 * r_bar
-##
-##    groups = ranges.index.values
-##
-##    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
-##    ax.plot(groups, ranges, marker="o")
-##    
-##    plt.plot(groups, [UCL]*len(groups), "r")
-##    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(groups)-1+0.1, UCL))
-##    
-##    plt.plot(groups, [r_bar]*len(groups), "k")
-##    plt.annotate(s="R-bar={:.2f}".format(r_bar), xy=(len(groups)-1+0.1, r_bar))
-##             
-##    plt.plot(groups, [LCL]*len(groups), "r")
-##    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(groups)-1+0.1, LCL))
-##    
-##    ax.spines['top'].set_visible(False)
-##    ax.spines['right'].set_visible(False)
-##    plt.xticks(rotation=60)
-##    plt.ylabel("R     ", rotation=0)
-##    plt.title("R Chart\n")
-##
-##    if save:
-##        plt.savefig("output__r_chart.png")
-##
-##    if show:
-##        plt.show()
-##
-##
-##def group_scattering(df, y_label="Measure", save=True, show=False):
-##    groups = df.index
-##    n = df.shape[1]
-##
-##    plt.figure(figsize=(WIDTH, HEIGHT))
-##    
-##    for group in groups:
-##        plt.scatter([group]*n, df.loc[group, :], c="blue")
-##
-##    plt.xticks(rotation=60)
-##    plt.ylabel(y_label)
-##
-##    if save:
-##        plt.savefig("output__scatter.png")
-##
-##    if show:
-##        plt.show()
-##
-##
-##def moving_range_chart(df, save=True, show=False):
-##    means = get_means(df)
-##    MRs = np.abs(means[1:].values-means[:-1].values)
-##    indices = [str(x+2) for x in range(len(MRs))]
-##    
-##    MR_bar = np.mean(MRs)
-##    
-##    D4 = get_constant(2, "D4")
-##    UCL = D4 * MR_bar
-##    LCL = 0
-##
-##    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
-##    ax.plot(indices, MRs, marker="o")
-##    
-##    plt.plot(indices, [UCL]*len(MRs), "r")
-##    plt.annotate(s="UCL={:.2f}".format(UCL), xy=(len(MRs)-1+0.1, UCL))
-##    
-##    plt.plot(indices, [MR_bar]*len(MRs), "k")
-##    plt.annotate(s="MR-bar={:.2f}".format(MR_bar), xy=(len(MRs)-1+0.1, MR_bar))
-##    
-##    plt.plot(indices, [LCL]*len(MRs), "r")
-##    plt.annotate(s="LCL={:.2f}".format(LCL), xy=(len(MRs)-1+0.1, LCL))
-##    
-##    ax.spines['top'].set_visible(False)
-##    ax.spines['right'].set_visible(False)
-##    plt.ylabel("Moving Range")
-##    plt.title("Subgroup MR Chart\n")
-##
-##    if save:
-##        plt.savefig("output__mr_chart.png")
-##
-##    if show:
-##        plt.show()
-##
-##
 ##def capability_histogram(df, x_label="Measure", bins=10, LSL=None, USL=None,
 ##                         save=True, show=False):
 ##    values = df.values.ravel()
