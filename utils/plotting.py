@@ -112,11 +112,6 @@ if __name__ == "__main__":
     test_plot_run_chart()
 
 
-##def generate_data():
-##    array = np.random.randint(95, 105, (10, 5))
-##    return pd.DataFrame(array)
-##
-##
 ##def add_labels(df):
 ##    n_rows, n_cols = df.shape
 ##    rows = ["Group {}".format(x+1) for x in range(n_rows)]
@@ -126,42 +121,6 @@ if __name__ == "__main__":
 ##    
 ##    df["Group"] = rows
 ##    df.set_index("Group", drop=True, inplace=True)
-##
-##
-##def run_chart(series, centerline=False, LSL=None, USL=None,
-##              x_label="No.", y_label="Measure",
-##              save=True, show=False):
-##
-##    n_points = len(series)
-##    x = np.arange(n_points) + 1
-##    y = series
-##
-##    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT))
-##    ax.plot(x, y, marker="o")
-##    ax.spines['top'].set_visible(False)
-##    ax.spines['right'].set_visible(False)
-##    plt.title("Run Chart\n")
-##    plt.xlabel(x_label)
-##    plt.ylabel(y_label)
-##
-##    if USL is not None:
-##        plt.plot(x, [USL]*n_points, "r")
-##        plt.annotate(s="USL={:.2f}".format(USL), xy=(n_points+0.5, USL))
-##
-##    if centerline:
-##        center = np.mean(y)
-##        plt.plot(x, [center]*n_points, "k")
-##        plt.annotate(s="Mean={:.2f}".format(center), xy=(n_points+0.5, center))
-##
-##    if LSL is not None:
-##        plt.plot(x, [LSL]*n_points, "r")
-##        plt.annotate(s="LSL={:.2f}".format(LSL), xy=(n_points+0.5, LSL))
-##
-##    if save:
-##        plt.savefig("output__run_chart.png")
-##
-##    if show:
-##        plt.show()
 ##
 ##
 ##def histogram(series, bins=10, x_label="Measure", y_label="Frequency"):
