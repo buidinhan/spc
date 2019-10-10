@@ -19,11 +19,18 @@ def show_and_save_plot(show=True, save=False, filename="plot.png"):
 
 
 # MAIN PLOTTING FUNCTIONS
-def plot_run_chart(series, x_label=None, y_label=None, title=None,
-                   ax=None, show=True, save=False, **kwargs):
+def plot_run_chart(series, LSL, USL, show_mean=True, x_label=None,
+                   y_label=None, title=None, ax=None, show=True,
+                   save=False, **kwargs):
 
     if ax is None:
         fig, ax = plt.subplots(figsize=(8, 6))
+
+    ax.axhline(y=LSL)
+    ax.axhline(y=USL)
+
+    if show_mean:
+        ax.axhline(y=np.mean(series))
 
     indices = [x+1 for x in range(len(series))]
     ax.plot(indices, series, **kwargs)
@@ -85,8 +92,8 @@ def plot_single_measure_control_chart():
 def test_plot_run_chart():
     df, target, LSL, USL = load_input("../testing/fridge.dat")
     all_values = df.to_numpy().ravel()
-    plot_run_chart(all_values, y_label="Thickness", title="Run Chart",
-                   ax=None, show=True, save=False)
+    plot_run_chart(all_values, LSL, USL, y_label="Thickness",
+                   title="Run Chart", ax=None, show=True, save=False)
 
 
 if __name__ == "__main__":
