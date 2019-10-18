@@ -65,8 +65,7 @@ def plot_xbar_s_chart(df, group_axis="row", x_label=None, y_label=None,
                       title=None, ax=None, show=True, save=False,
                       **kwargs):
     
-    means, X_bar, s_bar, LCL, UCL = \
-           xbar_s_chart(df, group_axis=group_axis)
+    means, X_bar, _, LCL, UCL = xbar_s_chart(df, group_axis=group_axis)
 
     if ax is None:
         fig, ax = plt.subplots(figsize=(10, 6),
@@ -113,8 +112,7 @@ def plot_xbar_r_chart(df, group_axis="row", x_label=None, y_label=None,
                       title=None, ax=None, show=True, save=False,
                       **kwargs):
     
-    means, X_bar, r_bar, LCL, UCL = \
-           xbar_r_chart(df, group_axis=group_axis)
+    means, X_bar, _, LCL, UCL = xbar_r_chart(df, group_axis=group_axis)
 
     if ax is None:
         fig, ax = plt.subplots(figsize=(10, 6),
@@ -439,7 +437,7 @@ def test_plot_single_measure_control_chart():
                                       
 
 if __name__ == "__main__":
-    test_plot_xbar_r_chart()
+    test_plot_xbar_s_chart()
 
 
 ##def normality_test(df):
