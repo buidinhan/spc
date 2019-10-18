@@ -18,3 +18,6 @@
 * Control Chart Assessment
   * Western Electric rules (*not yet implemented*)
   * Nelson rules
+
+## Notice
+* This repository comes with no warranty. The author is not responsible and liable for any loss or damage caused by the leverage of the codes.
