@@ -1,3 +1,16 @@
+"""
+# Reference:
+http://leansixsigmadefinition.com/glossary/nelson-rules/
+
+# Definition
+A 1984 update by Lloyd S. Nelson to the popular Western Electric Rules
+(WECO Rules), in order to make the probability of detecting an out-of-
+control condition by chance approximately equal across all tests. The
+Western Electric Rules have probabilities that have more variability
+from one another (some are more likely than others to occur by chance).
+"""
+
+
 from itertools import combinations
 
 import numpy as np
@@ -7,6 +20,9 @@ from utils.control_charts import load_input, xbar_s_chart
 
 # MAIN FUNCTIONS
 def nelson_rule_1(series, X_bar, s):
+    """
+    Outlier: One point is more than 3 standard deviations from the mean.
+    """
     violating_indices = []
     for i in range(len(series)):
         if np.abs(series[i]-X_bar) > 3*s:
@@ -16,6 +32,9 @@ def nelson_rule_1(series, X_bar, s):
 
 
 def nelson_rule_2(series, X_bar):
+    """
+    Shift: Nine or more points in a row are on the same side of the mean.
+    """
     n = len(series)
     if n < 9:
         return []
@@ -30,6 +49,10 @@ def nelson_rule_2(series, X_bar):
 
 
 def nelson_rule_3(series):
+    """
+    Trend: Six or more points in a row are continually increasing or
+    decreasing.
+    """
     n = len(series)
     if n < 5:
         return []
@@ -44,6 +67,10 @@ def nelson_rule_3(series):
 
 
 def nelson_rule_4(series):
+    """
+    Bimodal, 2 or more factors in data set: Forteen or more points in a
+    row alternate in direction, increasing then decreasing.
+    """
     n = len(series)
     if n < 14:
         return []
@@ -58,6 +85,10 @@ def nelson_rule_4(series):
 
 
 def nelson_rule_5(series, X_bar, s):
+    """
+    Shift: Two or three out of three points in a row are more than 2
+    standard deviations from the mean in the same direction.
+    """
     n = len(series)
     if n < 3:
         return []
@@ -75,6 +106,10 @@ def nelson_rule_5(series, X_bar, s):
 
 
 def nelson_rule_6(series, X_bar, s):
+    """
+    Shift or trend: Four or five out of five points in a row are more
+    than 1 standard deviation from the mean in the same direction.
+    """
     n = len(series)
     if n < 5:
         return []
@@ -94,6 +129,11 @@ def nelson_rule_6(series, X_bar, s):
 
 
 def nelson_rule_7(series, X_bar, s):
+    """
+    Reduced variation or measurement issue: Fifteen points in a row are
+    all within 1 standard deviation of the mean on either side of the
+    mean.
+    """
     n = len(series)
     if n < 15:
         return []
@@ -101,19 +141,17 @@ def nelson_rule_7(series, X_bar, s):
     violating_indices = set()
     for i in range(n-14):
         if all([np.abs(series[j]-X_bar) < s for j in range(i, i+15)]):
-            both_sided = False
-            for combination in combinations(set(range(i, i+15)), 2):
-                j, k = combination
-                if (series[j]-X_bar)*(series[k]-X_bar) < 0:
-                    both_sided = True
-                    break
-            if both_sided:
-                violating_indices.update(range(i, i+15))
+            violating_indices.update(range(i, i+15))
                 
     return sorted(violating_indices)
 
 
 def nelson_rule_8(series, X_bar, s):
+    """
+    Bimodal, 2 or more factors in data set: Eight points in a row exist
+    with none within 1 standard deviation of the mean and the points are
+    in both directions from the mean.
+    """
     n = len(series)
     if n < 8:
         return []
