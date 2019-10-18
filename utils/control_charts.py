@@ -43,7 +43,7 @@ def xbar_s_chart(df, group_axis="row"):
     UCL = X_bar + A3*s_bar
     LCL = X_bar - A3*s_bar
     
-    return means_by_group, X_bar, LCL, UCL
+    return means_by_group, X_bar, s_bar, LCL, UCL
 
 
 def xbar_r_chart(df, group_axis="row"):
@@ -67,7 +67,7 @@ def xbar_r_chart(df, group_axis="row"):
     UCL = X_bar + A2*r_bar
     LCL = X_bar - A2*r_bar
     
-    return means_by_group, X_bar, LCL, UCL
+    return means_by_group, X_bar, r_bar, LCL, UCL
 
 
 def r_chart(df, group_axis="row"):
@@ -166,16 +166,16 @@ def test_load_input():
 
 def test_xbar_s_chart():
     df, _, _, _ = load_input("../testing/fridge.dat")
-    means, X_bar, LCL, UCL = xbar_s_chart(df, group_axis="row")
+    means, X_bar, s_bar, LCL, UCL = xbar_s_chart(df, group_axis="row")
     print(means)
-    print(X_bar, LCL, UCL)
+    print(X_bar, s_bar, LCL, UCL)
 
 
 def test_xbar_r_chart():
     df, _, _, _ = load_input("../testing/fridge.dat")
-    means, X_bar, LCL, UCL = xbar_r_chart(df, group_axis="row")
+    means, X_bar, r_bar, LCL, UCL = xbar_r_chart(df, group_axis="row")
     print(means)
-    print(X_bar, LCL, UCL)
+    print(X_bar, r_bar, LCL, UCL)
 
 
 def test_r_chart():
@@ -211,4 +211,4 @@ def test_single_measure_control_chart():
 
     
 if __name__ == "__main__":
-    test_single_measure_control_chart()
+    test_xbar_r_chart()
