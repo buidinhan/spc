@@ -14,6 +14,7 @@
   * Probability plot (*not yet implemented*)
   * Q-Q plot (*not yet implemented*)
   * Capability histogram (*not yet implemented*)
+  * Six-pack graph (*not yet implemented*)
 * Control Chart Assessment
   * Western Electric rules (*not yet implemented*)
   * Nelson rules
