@@ -1,5 +1,5 @@
 """
-# Reference:
+# Reference
 http://leansixsigmadefinition.com/glossary/nelson-rules/
 
 # Definition
@@ -14,8 +14,6 @@ from one another (some are more likely than others to occur by chance).
 from itertools import combinations
 
 import numpy as np
-
-from utils.control_charts import load_input, xbar_s_chart
 
 
 # MAIN FUNCTIONS
