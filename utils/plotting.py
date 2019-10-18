@@ -5,6 +5,7 @@ from scipy import stats
 
 from utils.control_charts import *
 from utils.capability_indices import *
+from utils.nelson_rules import nelson_rules
 
 
 # UTILITY FUNCTIONS
@@ -385,6 +386,46 @@ def plot_single_measure_control_chart(series, x_label=None,
                        filename="single_measure_control_chart.png")
 
 
+def plot_nelson_rules(df, group_axis="row", std_estimation="s",
+                      x_label=None, y_label=None, title=None, ax=None,
+                      show=True, save=False, **kwargs):
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6),
+                               gridspec_kw={"left": 0.07,
+                                            "right": 0.87,
+                                            "bottom": 0.1,
+                                            "top": 0.94})
+
+    if std_estimation == "s":
+        means, X_bar, s, _, _ = xbar_s_chart(df, group_axis=group_axis)
+        plot_xbar_s_chart(df, group_axis=group_axis, x_label=x_label,
+                          y_label=y_label, title=title, ax=ax, show=False,
+                          save=False, **kwargs)
+    elif std_estimation == "r":
+        means, X_bar, s, _, _ = xbar_r_chart(df, group_axis=group_axis)
+        plot_xbar_r_chart(df, group_axis=group_axis, x_label=x_label,
+                          y_label=y_label, title=title, ax=ax, show=False,
+                          save=False, **kwargs)
+    else:
+        raise ValueError("std_estimation should be 's' or 'r'.")
+
+    ax.axhline(y=X_bar+2*s, linestyle="--")
+    ax.axhline(y=X_bar+s, linestyle="--")
+    ax.axhline(y=X_bar-s, linestyle="--")
+    ax.axhline(y=X_bar-2*s, linestyle="--")
+
+    violating_indices, _ = nelson_rules(means, X_bar, s)
+    violating_values = [means[i] for i in violating_indices]
+
+    ax.scatter(np.array(violating_indices)+1, violating_values,
+               marker="o", s=120, edgecolor="r", color="w", alpha=1.0)
+
+    show_and_save_plot(show=show, save=save,
+                       filename="nelson_rules.png")
+    
+        
+
 # TESTING
 def test_plot_run_chart():
     df, target, LSL, USL = load_input("../testing/fridge.dat")
@@ -434,10 +475,15 @@ def test_plot_single_measure_control_chart():
     plot_single_measure_control_chart(df["number_of_complaints"],
                                       title="Control Chart",
                                       marker=".")
+
+
+def test_plot_nelson_rules():
+    df, _, _, _ = load_input("../testing/fridge.dat")
+    plot_nelson_rules(df, group_axis="row", title="X-bar (S) Chart")
                                       
 
 if __name__ == "__main__":
-    test_plot_xbar_s_chart()
+    test_plot_nelson_rules()
 
 
 ##def normality_test(df):
