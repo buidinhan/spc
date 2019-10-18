@@ -425,7 +425,6 @@ def plot_nelson_rules(df, group_axis="row", std_estimation="s",
                        filename="nelson_rules.png")
     
         
-
 # TESTING
 def test_plot_run_chart():
     df, target, LSL, USL = load_input("../testing/fridge.dat")
@@ -478,7 +477,7 @@ def test_plot_single_measure_control_chart():
 
 
 def test_plot_nelson_rules():
-    df, _, _, _ = load_input("../testing/fridge.dat")
+    df = pd.read_csv("../testing/nelson.csv", header=None)
     plot_nelson_rules(df, group_axis="row", title="X-bar (S) Chart")
                                       
 
